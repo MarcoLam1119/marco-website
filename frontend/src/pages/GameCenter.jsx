@@ -1,3 +1,41 @@
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import ContainerGrid from '../components/ContainerGrid';
+
 export default function GameCenter() {
-  return <h1>Game Center</h1>;
+  const gameList = [
+    { name: "Tetris Game", link: "tetris-game", image: "" },
+    { name: "Game1", link: "game1", image: "" },
+    { name: "Game2", link: "game2", image: "" },
+  ];
+
+  return (
+    <>
+      <h1>Game Center</h1>
+      <ContainerGrid>
+        {gameList.map((game, index) => (
+          <Gamecontainer
+            key={index}
+            gameName={game.name}
+            gameLink={game.link}
+            gameImage={game.image}
+          />
+        ))}
+      </ContainerGrid>
+      
+      
+    </>
+  );
 }
+
+function Gamecontainer({gameName, gameLink, gameImage}) {
+  return (
+    <Link to={gameLink}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px',border: '1px solid black', padding: '10px', borderRadius: '5px', alignItems: 'center' }}>
+          <h2>{gameName}</h2>
+          <img src={{gameImage}}/>
+        </div>
+    </Link>
+  );
+}
+
+
