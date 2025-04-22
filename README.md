@@ -56,7 +56,7 @@ marco-website
    npm run dev
    ```
 
-4. Open your browser and go to `http://localhost:3000` to view the application.
+4. Open your browser and go to `http://localhost:9091` to view the application.
 
 ## Running the Backend
 
@@ -81,7 +81,7 @@ marco-website
    uvicorn main:app --reload
    ```
 
-5. Open your browser and go to `http://localhost:8000` to view the API. You can also access the Swagger UI at `http://localhost:8000/docs`.
+5. Open your browser and go to `http://localhost:9090` to view the API. You can also access the Swagger UI at `http://localhost:9090/docs`.
 
 ## Testing
 
