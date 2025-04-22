@@ -1,0 +1,16 @@
+{
+  "name": "FastAPI Development Container",
+  "dockerFile": "Dockerfile",
+  "context": "..",
+  "settings": {
+    "python.pythonPath": "/usr/local/bin/python",
+    "python.analysis.typeCheckingMode": "basic"
+  },
+  "extensions": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-toolsai.jupyter"
+  ],
+  "postCreateCommand": "pip install -r requirements.txt && pip install -r dev-requirements.txt",
+  "remoteUser": "vscode"
+}
