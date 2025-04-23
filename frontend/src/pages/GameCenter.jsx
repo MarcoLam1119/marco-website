@@ -3,8 +3,8 @@ import ContainerGrid from '../components/ContainerGrid';
 
 export default function GameCenter() {
   const gameList = [
-    { name: "Tetris Game", link: "tetris-game", image: "" },
-    { name: "Game1", link: "game1", image: "" },
+    { name: "Tetris", link: "tetris-game", image: "" },
+    { name: "Tic Tac Toe", link: "tic-tac-toe-game", image: "" },
     { name: "Game2", link: "game2", image: "" },
   ];
 

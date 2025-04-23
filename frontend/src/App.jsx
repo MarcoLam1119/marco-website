@@ -7,6 +7,8 @@ import DivCol from './components/DivCol.jsx';
 import DivRow from './components/DivRow.jsx';
 import TetrisGame from './pages/GameCenter/TetrisGame.jsx';
 import './css/Header.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.css';
+import TicTacToeGame from './pages/GameCenter/TicTacToeGame.jsx';
 
 const links = [
   { to: "/", label: "Landing",element: <Landing /> },
@@ -48,6 +50,7 @@ export default function App() {
         <Route path="/game-center" element={<GameCenter />} />
         <Route path="/photo-library" element={<PhotoLibrary />} />
         <Route path="/game-center/tetris-game" element={<TetrisGame />} />
+        <Route path="/game-center/tic-tac-toe-game" element={<TicTacToeGame/>} />
       </Routes>
     </Router>
   );

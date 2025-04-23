@@ -1,7 +1,7 @@
-export default function PhotoFrame({ children }) {
+export default function PhotoFrame(props) {
   return (
-    <h1 className="photo-frame">
-        {children}
-    </h1>
+    <photoframe className="photo-frame" >
+      <img src={props.src}/>
+    </photoframe>
   );
 }
