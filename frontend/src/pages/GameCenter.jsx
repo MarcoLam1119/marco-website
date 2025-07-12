@@ -9,7 +9,7 @@ export default function GameCenter() {
   ];
 
   return (
-    <>
+    <main>
       <h1>Game Center</h1>
       <ContainerGrid>
         {gameList.map((game, index) => (
@@ -23,7 +23,7 @@ export default function GameCenter() {
       </ContainerGrid>
       
       
-    </>
+    </main>
   );
 }
 
