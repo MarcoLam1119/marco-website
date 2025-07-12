@@ -5,6 +5,8 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 9091, // Set the frontend port to 9091
+    port: 8080, // Set the frontend port to 9091
+    host: true,
+    allowedHosts: ["homepc.marco-lam-web.net"],
   },
 })
