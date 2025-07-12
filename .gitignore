@@ -1,3 +1,4 @@
 /upload
 /backend/__pycache__
 /backend/upload
+*.pyc
