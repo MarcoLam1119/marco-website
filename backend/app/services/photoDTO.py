@@ -4,6 +4,7 @@ import os
 from fastapi import UploadFile
 from app.models.photoCreate import PhotoCreate
 from fastapi import HTTPException
+from app.services.sqlDAO import execute_query
 
 async def add_photo_logic(name: str, category_id: int, file: UploadFile) -> dict:
     upload_folder = "upload"
@@ -20,23 +21,25 @@ async def add_photo_logic(name: str, category_id: int, file: UploadFile) -> dict
         raise HTTPException(status_code=500, detail=f"File upload failed: {str(e)}")
 
     photo = PhotoCreate(name=name, category_id=category_id, location_path=file_location)
-    photo_id = photoDAO.add_photo(photo.name, photo.category_id, photo.location_path)
+    query = (
+        "INSERT INTO photo_location (name, category_id, location_path, upload_date, is_delete) "
+        "VALUES (%s, %s, %s, NOW(), %s)"
+    )
+    photo_id = execute_query(query, (photo.name, photo.category_id, photo.location_path, 0))
     
     return {"file_location": file_location, "photo_id": photo_id}
 
 def list_photos_logic() -> list:
     try:
-        photos = photoDAO.list_photos()
+        query = "SELECT * FROM photo_location WHERE is_delete = 0"
+        photos = execute_query(query, fetch=True)
         photo_list = []
-
         for photo in photos:
-            # Unpack the values based on the expected structure
             photo_data = PhotoCreate(
-                id=photo[0],  # Assuming ID is the first element
-                name=photo[1],  # Name is the second element
-                category_id=photo[2],  # Category ID is the third element
-                location_path=photo[3]  # Upload location is the fourth element
-                # Add other fields as necessary
+                id=photo[0],  
+                name=photo[1],
+                category_id=photo[2],
+                location_path=photo[3]
             )
             photo_list.append({
                 "id": photo_data.id,
@@ -44,15 +47,14 @@ def list_photos_logic() -> list:
                 "category_id": photo_data.category_id,
                 "upload_location": photo_data.location_path
             })
-
         return photo_list
-
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to list photos: {str(e)}")
 
 def remove_photo_logic(photo_id: int) -> dict:
     try:
-        result = photoDAO.remove_photo(photo_id)
+        query = "UPDATE photo_location SET is_delete = 1 WHERE id = %s"
+        result = execute_query(query, (photo_id,)) > 0
         if result:
             return {"message": "Photo removed successfully."}
         else:
