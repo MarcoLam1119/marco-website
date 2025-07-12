@@ -1,0 +1,9 @@
+{
+    "DB_CONFIG":{
+        "user": "root",
+        "password": "password",
+        "host": "localhost",
+        "database": "marco_website"
+    },
+    "upload_file_location":"/upload"
+}
