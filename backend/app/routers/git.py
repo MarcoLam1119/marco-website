@@ -1,14 +1,23 @@
-from flask import Flask, jsonify
+from fastapi import APIRouter, Depends
+from fastapi.security import OAuth2PasswordBearer
+from app.services.loginDTO import validate_admin_token
 import git
 import os
 
-app = Flask(__name__)
-
 # Set the path to your Git repository
-REPO_PATH = '/path/to/your/repo'
+REPO_PATH = '../'
 
-@app.route('/git/pull/latest', methods=['POST'])
-def pull_latest():
+router = APIRouter(
+    prefix="/git",
+    tags=["git"],
+)
+
+@router.post("/pull/latest")
+async def pull_latest(user_info: dict = Depends(validate_admin_token)):
+    """
+    Pull latest changes from git repository
+    Requires admin authentication
+    """
     try:
         # Open the repository
         repo = git.Repo(REPO_PATH)
@@ -26,9 +35,8 @@ def pull_latest():
             'author': latest_commit.author.name,
             'date': latest_commit.committed_datetime.isoformat()
         }
-        return jsonify(response), 200
+        # trigger reload frontend and backend
+        
+        return response
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
+        return {'error': str(e)}, 500
