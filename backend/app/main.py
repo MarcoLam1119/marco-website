@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
-app.mount("/upload", StaticFiles(directory="upload"), name="upload")
+app.mount("/upload", StaticFiles(directory="../frontend/upload"), name="upload")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # Allow all origins

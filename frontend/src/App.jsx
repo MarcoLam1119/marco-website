@@ -3,18 +3,24 @@ import Landing from './pages/Landing.jsx';
 import AboutMe from './pages/AboutMe.jsx';
 import GameCenter from './pages/GameCenter.jsx';
 import PhotoLibrary from './pages/PhotoLibrary.jsx';
+import AdminLogin from './pages/Login.jsx'
+import TetrisGame from './pages/GameCenter/TetrisGame.jsx';
+import TicTacToeGame from './pages/GameCenter/TicTacToeGame.jsx';
+
 import DivCol from './components/DivCol.jsx';
 import DivRow from './components/DivRow.jsx';
-import TetrisGame from './pages/GameCenter/TetrisGame.jsx';
+
 import './css/Header.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
-import TicTacToeGame from './pages/GameCenter/TicTacToeGame.jsx';
+import './css/style.scss';
+
 
 const links = [
   { to: "/", label: "Landing",element: <Landing /> },
   { to: "/about-me", label: "About Me",element: <AboutMe /> },
   { to: "/game-center", label: "Game Center",element: <GameCenter /> },
   { to: "/photo-library", label: "Photo Library",element: <PhotoLibrary /> },
+  { to: "/admin-login", label: "Login",element: <AdminLogin /> },
 ];
 function Header() {
   
@@ -50,7 +56,8 @@ export default function App() {
         <Route path="/game-center" element={<GameCenter />} />
         <Route path="/photo-library" element={<PhotoLibrary />} />
         <Route path="/game-center/tetris-game" element={<TetrisGame />} />
-        <Route path="/game-center/tic-tac-toe-game" element={<TicTacToeGame/>} />
+        <Route path="/game-center/tic-tac-toe-game" element={<TicTacToeGame />} />
+        <Route path="/admin-Login" element={<AdminLogin />} />
       </Routes>
     </Router>
   );

@@ -5,8 +5,8 @@ import json
 def get_db_connection():
     try:
         with open("app/config.json") as json_file:
-            jsonObj = json.load(json_file)
-        return mysql.connector.connect(**jsonObj["DB_CONFIG"])
+            configJSON = json.load(json_file)
+        return mysql.connector.connect(**configJSON["DB_CONFIG"])
     except Error as e:
         print(f"Error: {e}")
         return None

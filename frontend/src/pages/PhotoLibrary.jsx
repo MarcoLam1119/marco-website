@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ContainerGrid from "../components/ContainerGrid";
 import PhotoFrame from "../components/PhotoFrame";
 import FixedRightBottom from "../components/FixedRightBottom";
+import { gsap } from "gsap"
 
 export default function PhotoLibrary() {
   const [photos, setPhotos] = useState([]);
@@ -24,15 +25,15 @@ export default function PhotoLibrary() {
   }, []);
 
   return (
-    <>
+    <div id="photo-library">
       <h1>Photo Library</h1>
       <p>Welcome to my photo library! Here are some of my favorite photos:</p>
+      <FixedRightBottom />
       <ContainerGrid>
         {photos.map(photo => (
-          <PhotoFrame key={photo.id} src={"http://homepc.marco-lam-web.net:9090/"+photo.upload_location} />
+          <PhotoFrame key={photo.id} src={"http://homepc.marco-lam-web.net/"+photo.upload_location} />
         ))}
       </ContainerGrid>
-      <FixedRightBottom />
-    </>
+    </div>
   );
 }

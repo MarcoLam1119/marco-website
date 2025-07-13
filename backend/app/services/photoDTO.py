@@ -1,5 +1,4 @@
 import aiofiles
-from app.services import photoDAO
 import os
 from fastapi import UploadFile
 from app.models.photoCreate import PhotoCreate
@@ -7,7 +6,7 @@ from fastapi import HTTPException
 from app.services.sqlDAO import execute_query
 
 async def add_photo_logic(name: str, category_id: int, file: UploadFile) -> dict:
-    upload_folder = "upload"
+    upload_folder = "../frontend/upload"
     os.makedirs(upload_folder, exist_ok=True)
     
     # Sanitize the filename

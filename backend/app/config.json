@@ -5,5 +5,5 @@
         "host": "localhost",
         "database": "marco_website"
     },
-    "upload_file_location":"/upload"
+    "FILE_LOCATION":"../frontend/upload"
 }

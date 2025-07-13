@@ -1,7 +1,9 @@
+
+
 export default function PhotoFrame(props) {
   return (
-    <photoframe className="photo-frame" >
-      <img src={props.src} style={{ maxWidth: '200px' }}/>
-    </photoframe>
+    <photo-frame className="photo-frame" >
+      <img src={props.src}/>
+    </photo-frame>
   );
 }
