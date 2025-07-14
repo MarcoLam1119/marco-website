@@ -9,12 +9,12 @@ export default function AboutMe() {
       <p>Feel free to check out my projects and connect with me!</p>
       <p>Contact:</p>
       
-      <SocialIcon social="Gmail" url="mailto:your-email@gmail.com" />
-      <SocialIcon social="LinkedIn" url="https://www.linkedin.com/in/your-profile" />
-      <SocialIcon social="GitHub" url="https://github.com/your-username" />
-      <SocialIcon social="Instagram" url="https://instagram.com/your-profile" />
-      <SocialIcon social="Discord" url="https://discord.com/users/marcolam1119" />
-      <SocialIcon social="Whatsapp" url="https://wa.me/your-number" />
+      <SocialIcon social="Gmail" url="mailto:marcolamCW1119@gmail.com" />
+      <SocialIcon social="LinkedIn" url="https://www.linkedin.com/in/chun-wing-lam-308ba4328" />
+      <SocialIcon social="GitHub" url="https://github.com/MarcoLam1119" />
+      <SocialIcon social="Instagram" url="https://www.instagram.com/marco_gaster_lam1119?igsh=azZuc2p3dTBod3ow&utm_source=qr" />
+      <SocialIcon social="Discord" url="https://discord.com/users/mlgmobile" />
+      <SocialIcon social="Whatsapp" url="https://wa.me/85292087744" />
       
     </main>
   );
