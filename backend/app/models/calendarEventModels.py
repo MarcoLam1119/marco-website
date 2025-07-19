@@ -6,6 +6,7 @@ class CalendarEventModel(BaseModel):
     id: Optional[int] = None
     event_name: str
     event_description: str
+    color: str = '1E88E5'
     start_date: date
     end_date: date
     is_full_day: bool

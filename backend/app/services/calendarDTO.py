@@ -11,8 +11,8 @@ def list_event_logic():
 
         for event in events:
             # Convert timedelta to time if necessary
-            start_time = event[6]
-            end_time = event[7]
+            start_time = event[7]
+            end_time = event[8]
 
             if isinstance(start_time, timedelta):
                 start_time = (datetime.min + start_time).time()
@@ -23,13 +23,14 @@ def list_event_logic():
                 id=event[0],
                 event_name=event[1],
                 event_description=event[2],
-                start_date=event[3],
-                end_date=event[4],
-                is_full_day=event[5],
+                color=event[3],
+                start_date=event[4],
+                end_date=event[5],
+                is_full_day=event[6],
                 start_time=start_time,
                 end_time=end_time,
-                is_publish=event[8],
-                is_delete=event[9]
+                is_publish=event[9],
+                is_delete=event[10]
             )
             event_list.append(event_data)
 
@@ -58,13 +59,14 @@ def list_event_login_logic():
                 id=event[0],
                 event_name=event[1],
                 event_description=event[2],
-                start_date=event[3],
-                end_date=event[4],
-                is_full_day=event[5],
+                color=event[3],
+                start_date=event[4],
+                end_date=event[5],
+                is_full_day=event[6],
                 start_time=start_time,
                 end_time=end_time,
-                is_publish=event[8],
-                is_delete=event[9]
+                is_publish=event[9],
+                is_delete=event[10]
             )
             event_list.append(event_data)
 
@@ -82,8 +84,8 @@ def get_event_logic(event_id: int):
         if not event:
             raise HTTPException(status_code=404, detail="Event not found")
 
-        start_time = event[0][6]
-        end_time = event[0][7]
+        start_time = event[0][7]
+        end_time = event[0][8]
 
         if isinstance(start_time, timedelta):
             start_time = (datetime.min + start_time).time()
@@ -94,13 +96,14 @@ def get_event_logic(event_id: int):
             id=event[0][0],
             event_name=event[0][1],
             event_description=event[0][2],
-            start_date=event[0][3],
-            end_date=event[0][4],
-            is_full_day=event[0][5],
+            color=event[0][3],
+            start_date=event[0][4],
+            end_date=event[0][5],
+            is_full_day=event[0][6],
             start_time=start_time,
             end_time=end_time,
-            is_publish=event[0][8],
-            is_delete=event[0][9]
+            is_publish=event[0][9],
+            is_delete=event[0][10]
         )
 
         return event_data
@@ -123,6 +126,7 @@ async def add_event_logic(event_data: CalendarEventModel):
         params = (
             event_data.event_name,
             event_data.event_description,
+            event_data.color,
             event_data.start_date,
             event_data.end_date,
             event_data.is_full_day,
@@ -153,6 +157,7 @@ async def update_event_logic(event_id: int, event_data: CalendarEventModel):
         params = (
             event_data.event_name,
             event_data.event_description,
+            event_data.color,
             event_data.start_date,
             event_data.end_date,
             event_data.is_full_day,  # Ensure this matches your model
