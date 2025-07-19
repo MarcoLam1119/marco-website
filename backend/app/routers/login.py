@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
-from app.services.loginDTO import authenticate_user, create_access_token, validate_token
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
+from app.services.loginDTO import authenticate_user, create_access_token, try_get_user_info
 from datetime import timedelta
 
 router = APIRouter(
@@ -10,6 +10,9 @@ router = APIRouter(
 
 # Token expiration time (30 minutes)
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+# OAuth2 scheme
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 @router.post("/login")
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
@@ -39,9 +42,16 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     }
 
 @router.get("/validate")
-async def validate_token_endpoint(token: str = Depends(validate_token)):
+async def validate_token_endpoint(token: str = Depends(oauth2_scheme)):
     """
     Validate token endpoint
     Returns user info if token is valid
     """
-    return {"valid": True, "user": token} 
+    user_info = try_get_user_info(token)
+    if not user_info:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    return {"valid": True, "user": user_info}

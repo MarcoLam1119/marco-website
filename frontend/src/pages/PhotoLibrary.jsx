@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ContainerGrid from "../components/ContainerGrid";
 import PhotoFrame from "../components/PhotoFrame";
 import FixedRightBottom from "../components/FixedRightBottom";
-import { gsap } from "gsap"
+// import { gsap } from "gsap"
 
 export default function PhotoLibrary() {
   const [photos, setPhotos] = useState([]);
@@ -23,6 +23,10 @@ export default function PhotoLibrary() {
 
     fetchPhotos();
   }, []);
+
+  useEffect(() => {
+    
+  })
 
   return (
     <div id="photo-library">

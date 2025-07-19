@@ -1,16 +1,12 @@
-from fastapi import APIRouter, Depends
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import JSONResponse
 from app.services.loginDTO import validate_admin_token
 import git
-import os
 
 # Set the path to your Git repository
 REPO_PATH = '../'
 
-router = APIRouter(
-    prefix="/git",
-    tags=["git"],
-)
+router = APIRouter(prefix="/git", tags=["Git"])
 
 @router.post("/pull/latest")
 async def pull_latest(user_info: dict = Depends(validate_admin_token)):
@@ -35,8 +31,11 @@ async def pull_latest(user_info: dict = Depends(validate_admin_token)):
             'author': latest_commit.author.name,
             'date': latest_commit.committed_datetime.isoformat()
         }
-        # trigger reload frontend and backend
-        
+
         return response
+
     except Exception as e:
-        return {'error': str(e)}, 500
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Git pull failed: {str(e)}"}
+        )

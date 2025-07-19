@@ -2,7 +2,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useState } from 'react';
 import moment from 'moment';
-import { gsap } from "gsap"
+// import { gsap } from "gsap"
 
 // 日历本地化设置
 const localizer = momentLocalizer(moment); 

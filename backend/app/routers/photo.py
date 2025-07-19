@@ -4,7 +4,7 @@ from app.services.photoDTO import add_photo_logic, list_photos_logic, remove_pho
 
 router = APIRouter(
     prefix="/photos",
-    tags=["photos"],
+    tags=["Photos"],
 )
 
 @router.post("/add")

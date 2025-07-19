@@ -1,40 +1,86 @@
-# TODO rounte to 
-#app.router("/calendar/...")
-
-from fastapi import APIRouter, UploadFile, Form, File
-
-from app.services.calendarDTO import get_event, list_event, add_event, delete_event, update_event
-
-router = APIRouter(
-    prefix="/calendar",
-    tags=["calendar"],
+from fastapi import APIRouter, Form, Depends, HTTPException, Request
+from typing import Optional
+from datetime import date, time
+from app.models.calendarEventModels import CalendarEventModel
+from app.services.loginDTO import validate_admin_token, get_optional_token, try_get_user_info
+from app.services.calendarDTO import (
+    add_event_logic,
+    get_event_logic,
+    list_event_logic,
+    list_event_login_logic,
+    update_event_logic,
+    delete_event_logic,
 )
+
+router = APIRouter(prefix="/calendar", tags=["Calendar"])
 
 @router.post("/add")
 async def add_event(
-    name: str = Form(...),
-    category_id: int = Form(...),
-    file: UploadFile = File(...)
+    event_name: str = Form(...),
+    event_description: str = Form(...),
+    start_date: date = Form(...),
+    end_date: date = Form(...),
+    is_full_day: bool = Form(...),
+    start_time: Optional[time] = Form(None),
+    end_time: Optional[time] = Form(None),
+    is_publish: bool = Form(...),
+    user_info: dict = Depends(validate_admin_token)
 ):
-    return await add_photo_logic(name, category_id, file)
+    event_data = CalendarEventModel(
+        id=None,
+        event_name=event_name,
+        event_description=event_description,
+        start_date=start_date,
+        end_date=end_date,
+        is_full_day=is_full_day,
+        start_time=start_time,
+        end_time=end_time,
+        is_publish=is_publish,
+        is_delete=False
+    )
+    return await add_event_logic(event_data)
 
 @router.get("/list")
-def list_calendar():
-    return list_event()
+def list_event(request: Request):
+    token = get_optional_token(request)
+    user_info = try_get_user_info(token)
 
-@router.get("/select/{event_id}")
-def get_event(event_id):
-    return get_event(event_id)
-    
+    if user_info and user_info["role"] == "admin":
+        return list_event_login_logic()
+    else:
+        return list_event_logic()
+
+@router.get("/get/{event_id}")
+def get_event(event_id: int, user_info: dict = Depends(validate_admin_token)):
+    return get_event_logic(event_id)
+
 @router.post("/update/{event_id}")
-def update_event:
-	return update_event(event_id)
+async def update_event(
+    event_id: int,
+    event_name: str = Form(...),
+    event_description: str = Form(...),
+    start_date: date = Form(...),
+    end_date: date = Form(...),
+    is_full_day: bool = Form(...),
+    start_time: Optional[time] = Form(None),
+    end_time: Optional[time] = Form(None),
+    is_publish: bool = Form(...),
+    user_info: dict = Depends(validate_admin_token)
+):
+    event_data = CalendarEventModel(
+        event_id=event_id,
+        event_name=event_name,
+        event_description=event_description,
+        start_date=start_date,
+        end_date=end_date,
+        is_full_day=is_full_day,
+        start_time=start_time,
+        end_time=end_time,
+        is_publish=is_publish,
+        is_delete=False
+    )
+    return await update_event_logic(event_id, event_data)
 
 @router.post("/delete/{event_id}")
-def delete_event(event_id: int):
-    return delete_event(event_id)
-    
-    
-    
-    
-    
+async def delete_event(event_id: int, user_info: dict = Depends(validate_admin_token)):
+    return await delete_event_logic(event_id)
