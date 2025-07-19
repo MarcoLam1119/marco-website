@@ -1,14 +1,14 @@
 # model of event
+from pydantic import BaseModel
 
-{
-	eventId : int
-	eventName : string
-	eventDescription : string 
-	startDate : datetime
-	EndDate : datetime
+class CalendarEventModel(BaseModel):
+    id : int
+	eventName : str
+	eventDescription : str
+	startDate : date
+	EndDate : date
 	isFullDate : bool
-    starTime : datetime
-    endTime : datetime
+    starTime : time
+    endTime : time
     isPublish : bool
     isDelete : bool
-}
