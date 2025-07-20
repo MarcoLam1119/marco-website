@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function AboutMe() {
   return (
-    <main>
+    <main id='adout-me'>
       <h1>About Me</h1>
       <p>Hi! I'm Marco, a software engineer with a passion for web development and game design.</p>
       <p>In my free time, I enjoy creating games and exploring new technologies.</p>

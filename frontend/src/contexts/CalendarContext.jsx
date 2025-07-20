@@ -32,6 +32,7 @@ export function CalendarProvider({ children }) {
         start: new Date(`${event.start_date} ${event.start_time}`),
         end: new Date(`${event.end_date} ${event.end_time}`),
         allDay: event.is_full_day,
+        color: event.color, // add color property for eventPropGetter
         backgroundColor: event.color,
         borderColor: event.color
       })).sort((a, b) => a.start - b.start);

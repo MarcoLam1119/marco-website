@@ -47,8 +47,8 @@ def list_event_login_logic():
 
         for event in events:
             # Convert timedelta to time if necessary
-            start_time = event[6]
-            end_time = event[7]
+            start_time = event[7]
+            end_time = event[8]
 
             if isinstance(start_time, timedelta):
                 start_time = (datetime.min + start_time).time()
@@ -84,8 +84,8 @@ def get_event_logic(event_id: int):
         if not event:
             raise HTTPException(status_code=404, detail="Event not found")
 
-        start_time = event[0][7]
-        end_time = event[0][8]
+        start_time = event[0][8]
+        end_time = event[0][9]
 
         if isinstance(start_time, timedelta):
             start_time = (datetime.min + start_time).time()
@@ -102,8 +102,8 @@ def get_event_logic(event_id: int):
             is_full_day=event[0][6],
             start_time=start_time,
             end_time=end_time,
-            is_publish=event[0][9],
-            is_delete=event[0][10]
+            is_publish=event[0][10],
+            is_delete=event[0][11]
         )
 
         return event_data
@@ -114,9 +114,9 @@ def get_event_logic(event_id: int):
 async def add_event_logic(event_data: CalendarEventModel):
     try:
         query = """
-        INSERT INTO calendar_event (event_name, event_description, start_date, end_date, 
+        INSERT INTO calendar_event (event_name, event_description, color, start_date, end_date, 
                                     is_full_day, start_time, end_time, is_publish, is_delete)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         
         # Convert time to naive time objects
@@ -150,7 +150,7 @@ async def update_event_logic(event_id: int, event_data: CalendarEventModel):
     try:
         query = """
         UPDATE calendar_event 
-        SET event_name = %s, event_description = %s, start_date = %s, end_date = %s, 
+        SET event_name = %s, event_description = %s, color = %s, start_date = %s, end_date = %s, 
             is_full_day = %s, start_time = %s, end_time = %s, is_publish = %s
         WHERE id = %s AND is_delete = 0
         """
@@ -160,16 +160,16 @@ async def update_event_logic(event_id: int, event_data: CalendarEventModel):
             event_data.color,
             event_data.start_date,
             event_data.end_date,
-            event_data.is_full_day,  # Ensure this matches your model
+            event_data.is_full_day,
             event_data.start_time,
             event_data.end_time,
             event_data.is_publish,
-            event_id  # Ensure this is the ID of the event being updated
+            event_id
         )
         result = execute_query(query, params=params, fetch=False)
-        return get_event_logic(event_id)
         if result == 0:
             raise HTTPException(status_code=404, detail="Event not found or already deleted")
+        return get_event_logic(event_id)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to update event: {str(e)}")
 

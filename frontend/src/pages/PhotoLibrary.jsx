@@ -4,6 +4,7 @@ import PhotoFrame from "../components/PhotoFrame";
 import FixedRightBottom from "../components/FixedRightBottom";
 import PhotoAnimation from '../components/PhotoAnimation';
 import TokenCheck from "../components/tokenCheck";
+import PopupForm from "../components/PopupForm"
 
 export default function PhotoLibrary() {
   const [photos, setPhotos] = useState([]);
@@ -11,6 +12,7 @@ export default function PhotoLibrary() {
   const [inputedCategory, setInputedCategory] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   // Fetch photos on mount
   useEffect(() => {
@@ -70,30 +72,34 @@ export default function PhotoLibrary() {
   };
 
   return (
-    <div id="photo-library">
+    <main id="photo-library">
       <h1>Photo Library</h1>
       <p>Welcome to my photo library! Here are some of my favorite photos:</p>
       <TokenCheck>
-        <input placeholder="name" onChange={(e) => setInputedName(e.target.value)}/>
-        <input placeholder="category" onChange={(e) => setInputedCategory(e.target.value)}/>
-        <input 
-          type="file" 
-          onChange={(e) => setSelectedFile(e.target.files[0])} 
-        />
-        <button onClick={addPhotoHandler} disabled={isLoading}>
-          {isLoading ? "Adding Photo..." : "Add Photo"}
-        </button>
+        <button className="btn-3d" onClick={() => setShowPopup(true)}>Add Photo</button>
       </TokenCheck>
+      <PopupForm show={showPopup} onClose={() => setShowPopup(false)}>
+          <input placeholder="name" onChange={(e) => setInputedName(e.target.value)}/>
+          <input placeholder="category" onChange={(e) => setInputedCategory(e.target.value)}/>
+          <input 
+            type="file" 
+            onChange={(e) => setSelectedFile(e.target.files[0])} 
+          />
+          <button className="btn-3d" onClick={addPhotoHandler} disabled={isLoading}>
+            {isLoading ? "Adding Photo..." : "Add Photo"}
+          </button>
+        
+      </PopupForm>
       {isLoading && <p>Loading photos...</p>}
       <ContainerGrid>
         {photos.map(photo => (
           <PhotoAnimation 
             key={photo.id} 
-            imageUrl={`${window.location.protocol}//${window.location.hostname}:8080/${photo.upload_location}`} 
+            imageUrl={`${window.location.origin}/${photo.upload_location}`} 
             altText=""
           />
         ))}
       </ContainerGrid>
-    </div>
+    </main>
   );
 }

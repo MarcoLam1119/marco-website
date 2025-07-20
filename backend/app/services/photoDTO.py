@@ -19,14 +19,14 @@ async def add_photo_logic(name: str, category_id: int, file: UploadFile) -> dict
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"File upload failed: {str(e)}")
 
-    photo = PhotoCreate(name=name, category_id=category_id, location_path=file_location)
+    photo = PhotoCreate(name=name, category_id=category_id, location_path=file_location.replace("../frontend/upload","upload"))
     query = (
         "INSERT INTO photo_location (name, category_id, location_path, upload_date, is_delete) "
         "VALUES (%s, %s, %s, NOW(), %s)"
     )
     photo_id = execute_query(query, (photo.name, photo.category_id, photo.location_path, 0))
     
-    return {"file_location": file_location, "photo_id": photo_id}
+    return {"file_location": file_location.replace("../frontend/upload","upload"), "photo_id": photo_id}
 
 def list_photos_logic() -> list:
     try:
@@ -53,8 +53,8 @@ def list_photos_logic() -> list:
 def remove_photo_logic(photo_id: int) -> dict:
     try:
         query = "UPDATE photo_location SET is_delete = 1 WHERE id = %s"
-        result = execute_query(query, (photo_id,)) > 0
-        if result:
+        result = execute_query(query, (photo_id,))
+        if result > 0:
             return {"message": "Photo removed successfully."}
         else:
             raise HTTPException(status_code=404, detail="Photo not found.")

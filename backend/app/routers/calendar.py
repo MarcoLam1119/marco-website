@@ -71,7 +71,7 @@ async def update_event(
     user_info: dict = Depends(validate_admin_token)
 ):
     event_data = CalendarEventModel(
-        event_id=event_id,
+        id=event_id,
         event_name=event_name,
         event_description=event_description,
         color=color,

@@ -26,7 +26,12 @@ def execute_query(query, params=None, fetch=False):
         return result
     
     conn.commit()
-    photo_id = cursor.lastrowid
+    rowcount = cursor.rowcount
+    lastrowid = cursor.lastrowid
     cursor.close()
     conn.close()
-    return photo_id
+    # If it's an insert, return lastrowid; if update/delete, return rowcount
+    if query.strip().lower().startswith('insert'):
+        return lastrowid
+    else:
+        return rowcount

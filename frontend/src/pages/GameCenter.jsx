@@ -9,7 +9,7 @@ export default function GameCenter() {
   ];
 
   return (
-    <main>
+    <main id='game-center'>
       <h1>Game Center</h1>
       <ContainerGrid>
         {gameList.map((game, index) => (
