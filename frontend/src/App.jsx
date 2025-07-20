@@ -3,11 +3,12 @@ import Landing from './pages/Landing.jsx';
 import AboutMe from './pages/AboutMe.jsx';
 import GameCenter from './pages/GameCenter.jsx';
 import PhotoLibrary from './pages/PhotoLibrary.jsx';
-import CalendarPage from './pages/sub/Calendar.jsx';
+import CalendarPage from './pages/Calendar.jsx';
 import TetrisGame from './pages/GameCenter/TetrisGame.jsx';
 import TicTacToeGame from './pages/GameCenter/TicTacToeGame.jsx';
 import DivRow from './components/DivRow.jsx';
-import { useAuth } from './AuthContext';
+import { useAuth } from './contexts/AuthContext.jsx';
+import { CalendarProvider } from './contexts/CalendarContext';
 
 import './css/Header.scss';
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
@@ -24,18 +25,18 @@ export default function App() {
   ];
 
   return ( 
-      <Router>
-        <Header links={links} />
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/about-me" element={<AboutMe />} />
-          <Route path="/game-center" element={<GameCenter />} />
-          <Route path="/photo-library" element={<PhotoLibrary />} />
-          <Route path="/calendar" element={<CalendarPage />} />
-          <Route path="/game-center/tetris-game" element={<TetrisGame />} />
-          <Route path="/game-center/tic-tac-toe-game" element={<TicTacToeGame />} />
-        </Routes>
-      </Router>
+    <Router>
+      <Header links={links} />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/about-me" element={<AboutMe />} />
+        <Route path="/game-center" element={<GameCenter />} />
+        <Route path="/photo-library" element={<PhotoLibrary />} />
+        <Route path="/calendar" element={<CalendarPage />} />
+        <Route path="/game-center/tetris-game" element={<TetrisGame />} />
+        <Route path="/game-center/tic-tac-toe-game" element={<TicTacToeGame />} />
+      </Routes>
+    </Router>
   );
 }
 
@@ -63,7 +64,7 @@ function Header({ links }) {
 }
 
 function AdminLogin() {
-  const { saveToken } = useAuth(); // ✅ 正確：喺 component 頂層用
+  const { saveToken, loginToken, removeToken } = useAuth(); // ✅ Correct: use at component top level
 
   const handleLogin = async () => {
     const username = prompt("Enter your username:");
@@ -84,14 +85,19 @@ function AdminLogin() {
       }
       
       const data = await response.json();
-      saveToken(data.access_token); // ✅ 正確：event handler 入面用
+      saveToken(data.access_token); // ✅ Correct: use in event handler
       console.log("Login successful, token:", data.token);
     } catch (error) {
       console.error("Login error:", error);
     }
   };
 
+  const handleLogout = () => {
+    removeToken(); // ✅ Correct: use in event handler
+    console.log("Logout successful");
+  };
+
   return (
-    <button onClick={handleLogin}>Login</button>
+    <button id="login-button" onClick={loginToken ? handleLogout : handleLogin}>{loginToken ? "Logout" : "Login"}</button>
   );
 }

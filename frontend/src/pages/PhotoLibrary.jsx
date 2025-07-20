@@ -2,15 +2,22 @@ import { useEffect, useState } from "react";
 import ContainerGrid from "../components/ContainerGrid";
 import PhotoFrame from "../components/PhotoFrame";
 import FixedRightBottom from "../components/FixedRightBottom";
-// import { gsap } from "gsap"
+import PhotoAnimation from '../components/PhotoAnimation';
+import TokenCheck from "../components/tokenCheck";
 
 export default function PhotoLibrary() {
   const [photos, setPhotos] = useState([]);
+  const [inputedName, setInputedName] = useState(null);
+  const [inputedCategory, setInputedCategory] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
+  // Fetch photos on mount
   useEffect(() => {
     const fetchPhotos = async () => {
+      setIsLoading(true);
       try {
-        const response = await fetch("http://homepc.marco-lam-web.net:9090/photos/list");
+        const response = await fetch(`${window.location.protocol}//${window.location.hostname}:9090/photos/list`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -18,24 +25,73 @@ export default function PhotoLibrary() {
         setPhotos(data);
       } catch (error) {
         console.error("Failed to fetch photos:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchPhotos();
   }, []);
 
-  useEffect(() => {
-    
-  })
+  const addPhotoHandler = async () => {
+    if (!selectedFile) {
+      alert("Please select a file to upload.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', inputedName);
+    formData.append('category_id', '1');
+    formData.append('file', selectedFile, selectedFile.name);
+
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${window.location.protocol}//${window.location.hostname}:9090/photos/add`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'accept': 'application/json',
+          // Note: Do NOT set 'Content-Type' for FormData; the browser will set it correctly.
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add photo");
+      }
+
+      // Refresh photos after adding
+      const newPhoto = await response.json();
+      setPhotos((prevPhotos) => [...prevPhotos, newPhoto]);
+    } catch (error) {
+      console.error("Error adding photo:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div id="photo-library">
       <h1>Photo Library</h1>
       <p>Welcome to my photo library! Here are some of my favorite photos:</p>
-      <FixedRightBottom />
+      <TokenCheck>
+        <input placeholder="name" onChange={(e) => setInputedName(e.target.value)}/>
+        <input placeholder="category" onChange={(e) => setInputedCategory(e.target.value)}/>
+        <input 
+          type="file" 
+          onChange={(e) => setSelectedFile(e.target.files[0])} 
+        />
+        <button onClick={addPhotoHandler} disabled={isLoading}>
+          {isLoading ? "Adding Photo..." : "Add Photo"}
+        </button>
+      </TokenCheck>
+      {isLoading && <p>Loading photos...</p>}
       <ContainerGrid>
         {photos.map(photo => (
-          <PhotoFrame key={photo.id} src={"http://homepc.marco-lam-web.net/"+photo.upload_location} />
+          <PhotoAnimation 
+            key={photo.id} 
+            imageUrl={`${window.location.protocol}//${window.location.hostname}:8080/${photo.upload_location}`} 
+            altText=""
+          />
         ))}
       </ContainerGrid>
     </div>
