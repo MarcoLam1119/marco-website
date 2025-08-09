@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from .routers import photo, git, login, calendar
+from .routers import photo, git, login, calendar, blog, shareMS
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -18,4 +18,6 @@ app.include_router(login.router)
 app.include_router(git.router)
 app.include_router(photo.router)
 app.include_router(calendar.router)
+app.include_router(blog.router)
+app.include_router(shareMS.router)
 # app.include_router()
