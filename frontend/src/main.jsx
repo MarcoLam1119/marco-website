@@ -1,11 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import { DataProvider } from './contexts/DataContext.jsx'
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <DataProvider>
-      <App />
-    </DataProvider>
-  </StrictMode>,
-)
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App.jsx';
+import { DataProvider } from './contexts/DataContext.jsx';
+import './styles/global.scss'; // Import your global styles
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <DataProvider>
+        <App />
+      </DataProvider>
+    </BrowserRouter>
+  </React.StrictMode>
+);

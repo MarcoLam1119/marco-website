@@ -1,0 +1,119 @@
+/* src/styles/timeline.scss */
+.timeline-chart{
+  position: relative;
+  padding: 10px 0 10px;
+}
+
+.timeline-track{
+  position: absolute;
+  top: 0; bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  background: var(--text);
+  border-radius: 999px;
+}
+.timeline-track::before{
+  content:"";
+  position:absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px; height: 14px;
+  background: var(--text);
+  border: 3px solid var(--text);
+  border-radius: 50%;
+}
+
+.timeline-rows{
+  display:flex;
+  flex-direction:column;
+  gap: 26px;
+}
+
+.tl-row{
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  align-items: center;
+  min-height: 110px;
+}
+
+.tl-row .col.center{
+  position: relative;
+  height: 100%;
+  display:grid;
+  align-items:center;
+  justify-items:center;
+}
+
+.arrow{
+  position: relative;
+  width: 70%;
+  height: 2px;
+  background: var(--text);
+}
+.arrow.left{
+    justify-self: start;
+    transform: translateX(-10px);
+}
+.arrow.right{
+    justify-self: end;
+    transform: translateX(10px);
+}
+.arrow.left::after,
+.arrow.right::after{
+  content:"";
+  position:absolute;
+  top: 50%;
+  border: 6px solid transparent;
+}
+.arrow.left::after{
+  left: 0;
+  border-right-color: var(--text);
+  transform: translate3D(-50%, -50%, 0);
+}
+.arrow.right::after{
+  right: 0;
+  border-left-color: var(--text);
+  transform: translate3D(50%, -50%, 0);
+}
+
+.bubble{
+  background: var(--panel);
+  border: 2px solid var(--border);
+  color: var(--text);
+  border-radius: 36px;
+  padding: 18px 22px;
+  max-width: min(520px, 92%);
+  margin: 0 8px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.bubble-header{
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.bubble-body{
+  color: var(--text);
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 720px){
+  .tl-row{
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+  .timeline-track{
+    left: 12px;
+    transform: none;
+    width: 2px;
+    background: var(--border);
+  }
+  .arrow{ display:none; }
+  .bubble{
+    text-align: left;
+    border-radius: 18px;
+    margin-left: 28px;
+    max-width: 100%;
+  }
+}

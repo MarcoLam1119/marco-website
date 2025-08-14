@@ -1,25 +1,16 @@
-import { CalendarComponent } from '../components/CalendarComponent';
+// src/pages/Calendar.jsx
+import React from 'react';
+import CalendarComponent from '../components/CalendarComponent.jsx';
 
-
-export function CalendarPage() {
+export default function CalendarPage() {
   return (
-    <main id='calendar-page'>
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all">
-        <div className="bg-teal-600 text-black p-4">
-          <h2 className="text-xl font-bold flex items-center">
-              <i className="fa fa-calendar mr-2">Calendar</i><br/>
-          </h2>
-          <span className="text-sm text-gray-400">
-            This page is a calendar of daily information.
-          </span>
+    <section id="calendar">
+      <div className="container">
+        <h2>Calendar</h2>
+        <div className="panel">
+          <CalendarComponent isDetail />
         </div>
-        
-        <CalendarComponent isDetail={true}/>
-        
       </div>
-    </main>
+    </section>
   );
 }
-
-export default CalendarPage;
-

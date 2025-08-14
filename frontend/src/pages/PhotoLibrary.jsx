@@ -1,105 +1,144 @@
-import { useEffect, useState } from "react";
-import ContainerGrid from "../components/ContainerGrid";
-import PhotoFrame from "../components/PhotoFrame";
-import FixedRightBottom from "../components/FixedRightBottom";
-import PhotoAnimation from '../components/PhotoAnimation';
-import TokenCheck from "../components/tokenCheck";
-import PopupForm from "../components/PopupForm"
+import React, { useRef, useState } from "react";
+import { KEYS, store } from "../utils/storage.js";
+import { uuidv4 } from "../utils/id.js";
+import PlaceholderSVG from "../components/PlaceholderSVG.jsx";
 
 export default function PhotoLibrary() {
-  const [photos, setPhotos] = useState([]);
-  const [inputedName, setInputedName] = useState(null);
-  const [inputedCategory, setInputedCategory] = useState(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
+  const [photos, setPhotos] = useState(() => store.get(KEYS.PHOTOS, []));
+  const [dragOver, setDragOver] = useState(false);
+  const dropRef = useRef(null);
 
-  // Fetch photos on mount
-  useEffect(() => {
-    const fetchPhotos = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(`${window.location.protocol}//${window.location.hostname}:9090/photos/list`);
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        const data = await response.json();
-        setPhotos(data);
-      } catch (error) {
-        console.error("Failed to fetch photos:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPhotos();
-  }, []);
-
-  const addPhotoHandler = async () => {
-    if (!selectedFile) {
-      alert("Please select a file to upload.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('name', inputedName);
-    formData.append('category_id', '1');
-    formData.append('file', selectedFile, selectedFile.name);
-
-    setIsLoading(true);
+  React.useEffect(() => {
     try {
-      const response = await fetch(`${window.location.protocol}//${window.location.hostname}:9090/photos/add`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'accept': 'application/json',
-          // Note: Do NOT set 'Content-Type' for FormData; the browser will set it correctly.
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to add photo");
-      }
-
-      // Refresh photos after adding
-      const newPhoto = await response.json();
-      setPhotos((prevPhotos) => [...prevPhotos, newPhoto]);
-    } catch (error) {
-      console.error("Error adding photo:", error);
-    } finally {
-      setIsLoading(false);
+      store.set(KEYS.PHOTOS, photos);
+    } catch (e) {
+      console.warn(e);
     }
+  }, [photos]);
+
+  async function handleFiles(files) {
+    const list = Array.from(files).filter((f) => f.type.startsWith("image/"));
+    if (!list.length) return;
+    const newArr = [...photos];
+    for (const f of list) {
+      const dataUrl = await compressImageToDataURL(f, 1200, 0.85);
+      newArr.unshift({ id: uuidv4(), dataUrl, addedAt: Date.now() });
+    }
+    try {
+      setPhotos(newArr);
+    } catch (e) {
+      alert("Storage is full. Try removing some photos.");
+    }
+  }
+
+  function compressImageToDataURL(file, maxDim = 1200, quality = 0.85) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let { width, height } = img;
+          const scale = Math.min(1, maxDim / Math.max(width, height));
+          width = Math.round(width * scale);
+          height = Math.round(height * scale);
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+          const url = canvas.toDataURL("image/jpeg", quality);
+          resolve(url);
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  const onDragPrevent = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   return (
-    <main id="photo-library">
-      <h1>Photo Library</h1>
-      <p>Welcome to my photo library! Here are some of my favorite photos:</p>
-      <TokenCheck>
-        <button className="btn-3d" onClick={() => setShowPopup(true)}>Add Photo</button>
-      </TokenCheck>
-      <PopupForm show={showPopup} onClose={() => setShowPopup(false)}>
-          <input placeholder="name" onChange={(e) => setInputedName(e.target.value)}/>
-          <input placeholder="category" onChange={(e) => setInputedCategory(e.target.value)}/>
-          <input 
-            type="file" 
-            onChange={(e) => setSelectedFile(e.target.files[0])} 
-          />
-          <button className="btn-3d" onClick={addPhotoHandler} disabled={isLoading}>
-            {isLoading ? "Adding Photo..." : "Add Photo"}
-          </button>
-        
-      </PopupForm>
-      {isLoading && <p>Loading photos...</p>}
-      <ContainerGrid>
-        {photos.map(photo => (
-          <PhotoAnimation 
-            key={photo.id} 
-            imageUrl={`${window.location.origin}/${photo.upload_location}`} 
-            altText=""
-          />
-        ))}
-      </ContainerGrid>
-    </main>
+    <section id="photos">
+      <div className="container">
+        <h2>Photo library</h2>
+        <div className="panel">
+          <div className="photo-actions">
+            <label className="btn" htmlFor="filePicker">
+              ➕ Add photos
+            </label>
+            <input
+              type="file"
+              id="filePicker"
+              accept="image/*"
+              multiple
+              className="sr-only"
+              onChange={(e) => handleFiles(e.target.files)}
+            />
+            <button
+              id="clearPhotos"
+              onClick={() => {
+                if (confirm("Remove all stored photos?")) {
+                  setPhotos([]);
+                  store.del(KEYS.PHOTOS);
+                }
+              }}
+            >
+              Clear all
+            </button>
+            <span className="small muted">Drag & drop images below. Stored locally. Large images are compressed before saving.</span>
+          </div>
+
+          <div
+            id="dropzone"
+            className={`dropzone${dragOver ? " drag" : ""}`}
+            aria-label="Drop images here"
+            ref={dropRef}
+            onDragEnter={(e) => {
+              onDragPrevent(e);
+              setDragOver(true);
+            }}
+            onDragOver={onDragPrevent}
+            onDragLeave={(e) => {
+              onDragPrevent(e);
+              setDragOver(false);
+            }}
+            onDrop={(e) => {
+              onDragPrevent(e);
+              setDragOver(false);
+              handleFiles(e.dataTransfer.files);
+            }}
+          >
+            Drop images here or use the Add photos button.
+          </div>
+
+          <div className="spacer"></div>
+          <div id="photogrid" className="photogrid">
+            {photos.length > 0
+              ? photos.map((p) => (
+                  <div className="photo" key={p.id}>
+                    <img alt="Photo" loading="lazy" src={p.dataUrl} />
+                    <div className="controls">
+                      <button
+                        className="icon-btn"
+                        title="Delete"
+                        onClick={() => setPhotos((arr) => arr.filter((x) => x.id !== p.id))}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  </div>
+                ))
+              : Array.from({ length: 6 }).map((_, i) => (
+                  <div className="photo" key={i}>
+                    <PlaceholderSVG i={i} />
+                  </div>
+                ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
