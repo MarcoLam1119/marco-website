@@ -13,11 +13,6 @@ export default function Landing() {
     { id: uuidv4(), when: "09/2019 to 09/2022", what: "IVE Software Engineer Graduate" },
     { id: uuidv4(), when: "09/2013 to 09/2019", what: "Secondary Graduate in TKWSS" },
   ];  
-  
-
-  
-
-
 
   const getInitials = (name) => {
     const words = name.trim().split(/\s+/).filter(Boolean);
@@ -66,7 +61,12 @@ export default function Landing() {
       <section id="home">
         <div className="container creater">
           <div className="creater-card">
-            <span className="tag">Welcome</span>
+            <div className="row" style={{ alignItems: "center", padding: "0 0 10px 0"}}>
+              <span className="tag" style={{ margin: 0, flex: "0 0 100px" }}>Welcome</span>
+              <Link className="right btn" to="/about" aria-label="Go to About page" style={{flex: "0 0 50px"}}>
+                Detail
+              </Link>
+            </div>
             <div className="row">
               <h1 id="createrName">
                 Lam Chun Wing (Marco) 
@@ -132,32 +132,6 @@ export default function Landing() {
         <div className="container">
           <h2>Explore</h2>
           <div className="grid grid-auto">
-            {/* About Preview */}
-            <div className="panel">
-              <div className="row" style={{ alignItems: "center" }}>
-                <h3 style={{ margin: 0 }}>About me</h3>
-                <Link className="right btn" to="/about" aria-label="Go to About page">
-                  Detail
-                </Link>
-              </div>
-              <p className="muted">Hi, I'm Lam Chun Wing. I'm passionate about building useful things and sharing ideas. I enjoy working with the web, exploring design systems ...</p>
-              <div className="divider"></div>
-              <div className="small">
-                <strong>Recent timeline</strong>
-              </div>
-              {defaultTimeline?.length ? (
-                <ul className="small" style={{ paddingLeft: 18, margin: "8px 0 0" }}>
-                  {defaultTimeline.slice(0, 3).map((t) => (
-                    <li key={t.id}>
-                      <strong>{t.when}</strong> — <span className="muted">{t.what}</span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="small muted">No timeline items yet.</div>
-              )}
-            </div>
-
             {/* Photo Library Preview */}
             <div className="panel">
               <div className="row" style={{ alignItems: "center" }}>
