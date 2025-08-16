@@ -22,28 +22,6 @@ async def add_message(
 def list_message():
     return list_message_logic()
 
-@router.post("/update/{message_id}")
-async def update_message(
-    message_id: int,
-    message_content: str = Form(...),
-):
-    try:
-        return await update_message_logic(message_id, message_content)
-    except HTTPException as e:
-        raise e  # Re-raise the HTTPException to return the correct response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to update message: {str(e)}")
-
-@router.post("/delete/{message_id}")
-async def delete_message(message_id: int):
-    try:
-        return await delete_message_logic(message_id)
-    except HTTPException as e:
-        raise e  # Re-raise the HTTPException to return the correct response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to delete message: {str(e)}")
-
-
 @router.get("/get/latest")
 def get_latest_message():
     message_list = list_message_logic()
@@ -63,3 +41,26 @@ def get_latest_message():
     # Create a dictionary with message content as both keys and values
     formatted_messages = {message["message_content"]: message for message in latest_messages if "message_content" in message}
     return formatted_messages
+    
+@router.post("/update/{message_id}")
+async def update_message(
+    message_id: int,
+    message_content: str = Form(...),
+):
+    try:
+        return await update_message_logic(message_id, message_content)
+    except HTTPException as e:
+        raise e  # Re-raise the HTTPException to return the correct response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to update message: {str(e)}")
+        
+@router.delete("/delete/{message_id}")
+async def delete_message(message_id: int):
+    try:
+        return await delete_message_logic(message_id)
+    except HTTPException as e:
+        raise e  # Re-raise the HTTPException to return the correct response
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to delete message: {str(e)}")
+
+

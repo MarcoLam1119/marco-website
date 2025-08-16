@@ -29,6 +29,6 @@ async def update_blog(
 ):
     return await update_blog_logic(blog_id, blog_content)
 
-@router.post("/delete/{blog_id}")
+@router.delete("/delete/{blog_id}")
 async def delete_blog(blog_id: int):
     return await delete_blog_logic(blog_id)

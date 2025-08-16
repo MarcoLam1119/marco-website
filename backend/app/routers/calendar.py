@@ -85,6 +85,6 @@ async def update_event(
     )
     return await update_event_logic(event_id, event_data)
 
-@router.post("/delete/{event_id}")
+@router.delete("/delete/{event_id}")
 async def delete_event(event_id: int, user_info: dict = Depends(validate_admin_token)):
     return await delete_event_logic(event_id)
