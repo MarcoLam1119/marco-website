@@ -1,18 +1,11 @@
 // src/pages/Landing.jsx
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { uuidv4 } from "../utils/id.js";
 import { KEYS, store, debounce } from "../utils/storage.js";
 import { useCalendar } from "../contexts/DataContext";
 import { SocialIcon } from "../components/SocialIcon.jsx";
 
 export default function Landing() {
-  const defaultTimeline = [
-    { id: uuidv4(), when: "04/2023 to Present", what: "Full-Time Programmer in Octopus-InfoTech-Limited" },
-    { id: uuidv4(), when: "10/2022 to 02/2023", what: "Part-Time IT Support in Hong Kong Institute of Construction" },
-    { id: uuidv4(), when: "09/2019 to 09/2022", what: "IVE Software Engineer Graduate" },
-    { id: uuidv4(), when: "09/2013 to 09/2019", what: "Secondary Graduate in TKWSS" },
-  ];  
 
   const getInitials = (name) => {
     const words = name.trim().split(/\s+/).filter(Boolean);

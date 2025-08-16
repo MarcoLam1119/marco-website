@@ -92,8 +92,10 @@ export default function About() {
               <span className="pill">HTML</span>
               <span className="pill">CSS</span>
               <span className="pill">JavaScript</span>
-              <span className="pill">JAVA</span>
+              <span className="pill">Java</span>
               <span className="pill">Python</span>
+              <span className="pill">SQL</span>
+              {/* <span className="pill"></span> */}
             </div>
           </div>
         </div>
