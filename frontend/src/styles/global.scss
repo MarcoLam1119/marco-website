@@ -128,7 +128,7 @@ h3{ font-size: 18px; margin: 0 0 10px; }
 
 .muted{ color: var(--muted); }
 .tag{
-  display:inline-flex; gap:6px; align-items:center;
+  display:inline-flex; gap:6px; align-items:center; justify-content: center;
   font-size: 14px; padding: 4px 10px; border-radius: 999px;
   border: 1px dashed var(--border); background: color-mix(in oklab, var(--panel) 80%, transparent);
 }
@@ -220,7 +220,7 @@ h3{ font-size: 18px; margin: 0 0 10px; }
 /* Tools */
 .tools-grid{ display:grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .tool{ display:flex; flex-direction:column; gap: 10px; }
-.input, input[type="text"], input[type="number"], textarea, select{
+.input, input[type="text"], input[type="number"], input[type="password"], textarea, select{
   width: 100%; padding: 10px 12px; color: var(--text);
   background: color-mix(in oklab, var(--panel) 90%, transparent);
   border: 1px solid var(--border); border-radius: var(--radius-xs);

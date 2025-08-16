@@ -60,3 +60,25 @@ def remove_photo_logic(photo_id: int) -> dict:
             raise HTTPException(status_code=404, detail="Photo not found.")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to remove photo: {str(e)}")
+
+def add_category_logic(category_name: str) -> dict:
+    try:
+        query = "INSERT INTO photo_category (category_name) VALUES (%s)"
+        category_id = execute_query(query, (category_name,))
+        return {"category_id": category_id, "category_name": category_name}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to Add the new category: {str(e)}")
+
+def list_category_logic() -> list:
+    try:
+        query = "SELECT * FROM photo_category"
+        categorys = execute_query(query, fetch=True)
+        category_list = []
+        for category in categorys:
+            category_list.append({
+                "id": category[0],
+                "category_name": category[1],
+            })
+        return category_list
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to list category: {str(e)}")

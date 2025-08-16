@@ -24,7 +24,7 @@ export default function PopupForm({ show, onClose, children }) {
                     className="btn-close"
                     style={{ position: "absolute", top: 8, right: 8 }} 
                     onClick={onClose}
-                ></button>
+                >✖</button>
                 <div id="popup-form" 
                     style={{
                         display: "flex",

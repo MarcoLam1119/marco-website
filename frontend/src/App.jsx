@@ -8,6 +8,7 @@ import CalendarPage from "./pages/Calendar.jsx";
 import PhotoLibrary from "./pages/PhotoLibrary.jsx";
 import Tools from "./pages/Tools.jsx";
 import { KEYS, store } from "./utils/storage.js";
+import CreatorPanel from "./pages/CreatorPanel.jsx";
 
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="/calendar" element={<CalendarPage />} />
           <Route path="/photos" element={<PhotoLibrary />} />
           <Route path="/tools" element={<Tools />} />
+          <Route path="/creator" element={<CreatorPanel />} />
         </Routes>
       </main>
       <Footer />

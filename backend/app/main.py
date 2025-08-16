@@ -16,7 +16,8 @@ app.add_middleware(
 
 app.include_router(login.router)
 app.include_router(git.router)
-app.include_router(photo.router)
+app.include_router(photo.routerPhoto)
+app.include_router(photo.routerCategory)
 app.include_router(calendar.router)
 app.include_router(blog.router)
 app.include_router(shareMS.router)

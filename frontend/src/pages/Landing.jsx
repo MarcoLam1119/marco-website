@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { KEYS, store, debounce } from "../utils/storage.js";
 import { useCalendar } from "../contexts/DataContext";
 import { SocialIcon } from "../components/SocialIcon.jsx";
+import PhotoPreview from "../components/PhotoPreview.jsx";
 
 export default function Landing() {
 
@@ -126,27 +127,7 @@ export default function Landing() {
           <h2>Explore</h2>
           <div className="grid grid-auto">
             {/* Photo Library Preview */}
-            <div className="panel">
-              <div className="row" style={{ alignItems: "center" }}>
-                <h3 style={{ margin: 0 }}>Photo library</h3>
-                <Link className="right btn" to="/photos" aria-label="Go to Photo Library page">
-                  Detail
-                </Link>
-              </div>
-              {photos?.length ? (
-                <div className="photogrid" style={{ marginTop: 8 }}>
-                  {photos.slice(0, 6).map((p) => (
-                    <div className="photo" key={p.id}>
-                      <img alt="Photo preview" loading="lazy" src={p.dataUrl} />
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <p className="muted" style={{ marginTop: 8 }}>
-                  No photos yet. Add some in Photo library.
-                </p>
-              )}
-            </div>
+            <PhotoPreview limit={6} />
 
             {/* Calendar Preview */}
             <div className="panel">

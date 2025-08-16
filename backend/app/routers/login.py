@@ -8,8 +8,8 @@ router = APIRouter(
     tags=["authentication"],
 )
 
-# Token expiration time (30 minutes)
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+# Token expiration time (120 minutes)
+ACCESS_TOKEN_EXPIRE_MINUTES = 120
 
 # OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
