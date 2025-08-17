@@ -4,3 +4,4 @@
 2. Add View Photos at creator page and ever photo have click Detail popup and menu 
 3. Add View Photos at photo page and ever photo have click Detail popup but only info 
 4. Add Categroy filter at photo page and the Select is checkbox 
+5. Add creator page with section groups about the api
