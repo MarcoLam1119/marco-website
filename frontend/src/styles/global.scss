@@ -60,7 +60,31 @@ header{
   background: color-mix(in oklab, var(--bg) 82%, transparent);
   border-bottom: 1px solid var(--border);
 }
-main { padding-bottom:100px;}
+
+// scrollbar
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--bg);
+  border-radius: 50px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+// scrollbar
+
 .nav{
   display: flex; align-items: center; justify-content: space-between;
   gap: 10px; padding: 10px 0;
@@ -171,7 +195,7 @@ h3{ font-size: 18px; margin: 0 0 10px; }
 /* Photos */
 .photo-actions{ display:flex; gap: 10px; flex-wrap: wrap; align-items:center; }
 .photogrid{
-  display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px;
+  display:grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; max-height: 53vh; overflow-y: auto;
 }
 .photo{
   position:relative; border-radius: var(--radius-sm); overflow:hidden; border:1px solid var(--border);
