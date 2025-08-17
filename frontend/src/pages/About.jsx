@@ -18,6 +18,15 @@ export default function About() {
     [defaultTimeline]
   );
 
+  const contacts = [
+    {social:"Gmail" ,text:"marcolamCW1119@gmail.com",url:"mailto:marcolamCW1119@gmail.com"},
+    {social:"Whatsapp" ,text:"92087744",url:"https://wa.me/85292087744"},
+    {social:"LinkedIn" ,text:"Chun Wing Lam",url:"https://www.linkedin.com/in/chun-wing-lam-308ba4328"},
+    {social:"Github" ,text:"MarcoLam1119",url:"https://github.com/MarcoLam1119"},
+    {social:"Instagram" ,text:"marco_gaster_lam1119",url:"https://www.instagram.com/marco_gaster_lam1119?igsh=azZuc2p3dTBod3ow&utm_source=qr"},
+    {social:"discord",text:"mlgmobile",url:"https://discord.com/users/mlgmobile"}
+  ]
+
   return (
     <section id="about">
       <div className="container">
@@ -38,48 +47,17 @@ export default function About() {
             </p>
             <div className="spacer"></div>
             <div className="row">
-              <span className="pill">
-                <SocialIcon 
-                  social="Gmail" 
-                  text="marcolamCW1119@gmail.com"
-                  url="mailto:marcolamCW1119@gmail.com" 
-                />
-              </span>
-              <span className="pill">
-                <SocialIcon 
-                  social="Whatsapp" 
-                  text="92087744"
-                  url="https://wa.me/85292087744" 
-                />
-              </span>
-              <span className="pill">
-                <SocialIcon 
-                  social="LinkedIn" 
-                  text="Chun Wing Lam"
-                  url="https://www.linkedin.com/in/chun-wing-lam-308ba4328" 
-                />
-              </span>
-              <span className="pill">
-                <SocialIcon 
-                  social="Github" 
-                  text="MarcoLam1119"
-                  url="https://github.com/MarcoLam1119" 
-                />
-              </span>
-              <span className="pill">
-                <SocialIcon 
-                  social="Instagram" 
-                  text="marco_gaster_lam1119"
-                  url="https://www.instagram.com/marco_gaster_lam1119?igsh=azZuc2p3dTBod3ow&utm_source=qr" 
-                />
-              </span>
-              <span className="pill">
-                <SocialIcon 
-                  social="discord" 
-                  text="mlgmobile"
-                  url="https://discord.com/users/mlgmobile" 
-                />
-              </span>
+              {
+                contacts.map((contact) => (
+                  <span className="pill" key={contact.social}>
+                    <SocialIcon 
+                      social={contact.social}
+                      text={contact.text}
+                      url={contact.url}
+                    />
+                  </span>
+                ))
+              }
             </div>
             <div className="divider"></div>
             <h3>Bio</h3>
