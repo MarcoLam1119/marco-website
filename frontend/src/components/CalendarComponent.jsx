@@ -188,20 +188,17 @@ export function CalendarComponent({ isDetail = false }) {
               </div>
             </div>
           )}
-
-          <div className="mb-4 flex justify-between items-center">
+          <div style={{display:"flex",alignItems: "center",justifyContent: "space-between"}}>
             <div className="text-sm text-gray-600">{events.length} events loaded</div>
-
-            <div className="flex items-center gap-2">
               <button
                 onClick={handleRefresh}
                 disabled={isLoading || isSubmitting}
-                className="btn-3d"
+                className="btn-3d right"
+                style={{ margin: '1rem' }}
               >
                 {isLoading ? 'Loading...' : 'Refresh'}
               </button>
-
-              <TokenCheck>
+              {/* <TokenCheck>
                 <button
                   className="btn-3d"
                   style={{ margin: '1rem' }}
@@ -336,8 +333,7 @@ export function CalendarComponent({ isDetail = false }) {
                     {isSubmitting ? 'Submitting...' : 'Submit'}
                   </button>
                 </PopupForm>
-              </TokenCheck>
-            </div>
+              </TokenCheck> */}
           </div>
         </>
       )}
