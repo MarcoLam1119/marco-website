@@ -8,7 +8,7 @@ function getApiBase() {
 
 const toImgUrl = (upload_location) => `${window.location.origin}/${upload_location}`;
 
-export default function PhotoPreview({ limit = 6, pollMs = 0 }) {
+export default function PhotoPreview({ limit = 3, pollMs = 0 }) {
   const [photos, setPhotos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [err, setErr] = useState("");
