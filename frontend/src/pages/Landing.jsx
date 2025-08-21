@@ -104,7 +104,7 @@ export default function Landing() {
           <h2>Explore</h2>
           <div className="grid grid-auto">
             {/* Photo Library Preview */}
-            <PhotoPreview limit={3} />
+            <PhotoPreview limit={4} />
 
             {/* Calendar Preview */}
             <div className="panel">
