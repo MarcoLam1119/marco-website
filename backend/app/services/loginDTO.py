@@ -20,15 +20,10 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 # Hardcoded users (use a DB in production!)
 USERS = {
     "admin": {
-        "username": "admin",
-        "hashed_password": pwd_context.hash("admin123"),
+        "username": "marcolam",
+        "hashed_password": pwd_context.hash("marcolam"),
         "role": "admin"
     },
-    "user": {
-        "username": "user",
-        "hashed_password": pwd_context.hash("user123"),
-        "role": "user"
-    }
 }
 
 # Utility Functions
