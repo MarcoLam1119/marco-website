@@ -3,6 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
 from typing import Optional
+from app.services.sqlDAO import execute_query
 import jwt
 
 app = FastAPI()
@@ -17,20 +18,21 @@ ALGORITHM = "HS256"
 # OAuth2 scheme
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
-# Hardcoded users (use a DB in production!)
-USERS = {
-    "admin": {
-        "username": "marcolam",
-        "hashed_password": pwd_context.hash("marcolam"),
-        "role": "admin"
-    },
-}
 
 # Utility Functions
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
 
 def get_user(username: str):
+    query = "SELECT * FROM user WHERE role = 'admin' or role = 'user'"
+    users = execute_query(query, fetch=True)
+
+    for user in users:
+        USERS[user[1]] = {
+            "username": user[1],
+            "hashed_password": pwd_context.hash(user[2]),
+            "role": user[3]
+        }
     return USERS.get(username)
 
 def authenticate_user(username: str, password: str):
