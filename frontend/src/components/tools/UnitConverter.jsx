@@ -24,6 +24,12 @@ export default function UnitConverter() {
         toBase: (v, u, self) => v * self.factors[u],
         fromBase: (v, u, self) => v / self.factors[u],
       },
+      weight: {
+        units: ["kg", "lbs"],
+        factors: { kg: 1, lbs: 0.453592 },
+        toBase: (v, u, self) => v * self.factors[u],
+        fromBase: (v, u, self) => v / self.factors[u],
+      },
     }),
     []
   );
@@ -47,10 +53,8 @@ export default function UnitConverter() {
       return;
     }
     const unit = UNITS[cat];
-    const base =
-      cat === "length" ? unit.toBase(num, from, unit) : unit.toBase(num, from);
-    const res =
-      cat === "length" ? unit.fromBase(base, to, unit) : unit.fromBase(base, to);
+    const base = unit.toBase(num, from, unit);
+    const res = unit.fromBase(base, to, unit);
     setOut(Number.isFinite(res) ? formatNumber(res) : "");
   }, [val, from, to, cat, UNITS]);
 
@@ -68,6 +72,7 @@ export default function UnitConverter() {
           <select id="convCat" value={cat} onChange={(e) => setCat(e.target.value)}>
             <option value="temperature">Temperature</option>
             <option value="length">Length</option>
+            <option value="weight">Weight</option>
           </select>
         </div>
         <div>
@@ -81,7 +86,19 @@ export default function UnitConverter() {
           </select>
         </div>
         <div>
-          <label htmlFor="convTo">To</label>
+          <button
+            type="button"
+            onClick={() => {
+              const temp = from;
+              setFrom(to);
+              setTo(temp);
+            }}
+            style={{ marginLeft: '50%' ,transform: 'translateX(-50%)'}}
+            title="Swap units"
+          >
+            ⇄
+          </button>
+          <label htmlFor="convTo">To  </label>
           <select id="convTo" value={to} onChange={(e) => setTo(e.target.value)}>
             {UNITS[cat].units.map((u) => (
               <option key={`to-${u}`} value={u}>

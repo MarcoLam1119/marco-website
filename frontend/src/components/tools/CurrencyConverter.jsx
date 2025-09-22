@@ -96,12 +96,10 @@ export default function CurrencyConverter() {
           </select>
         </div>
         <div>
-          <button onClick={handleSwapCurrencies} style={{ marginTop: '20px' }}>
+          <button onClick={handleSwapCurrencies} style={{ marginLeft: '50%' ,transform: 'translateX(-50%)'}}>
             ⇄
           </button>
-        </div>
-        <div>
-          <label htmlFor="toCurrency">To</label>
+          <label htmlFor="toCurrency">To </label>
           <select
             id="toCurrency"
             value={toCurrency}
