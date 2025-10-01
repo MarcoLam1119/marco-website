@@ -18,6 +18,11 @@ export default function Tools() {
           <CurrencyConverter />
         </div>
       </div>
+      <br/>
+      <div className="container">
+        <h2>Big tools</h2>
+        <a className="btn" href="/payment">Payment Calculator</a>
+      </div>
     </section>
   );
 }

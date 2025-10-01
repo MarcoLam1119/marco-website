@@ -206,7 +206,7 @@ export default function PaymentCalculator() {
         <section style={styles.card}>
           <h2 style={styles.h2}>5) Output</h2>
           <ResultsTable results={results} />
-          <PerPersonUtilized items={items} names={names} />
+          <PerPersonUtilized items={items} names={names}/>
           <div style={styles.navRow}>
             <button style={styles.btn} onClick={prev}>Back</button>
             <button style={styles.btn} onClick={() => setStep(1)}>Start Over</button>
@@ -559,9 +559,79 @@ function PerPersonUtilized({
     });
   });
 
+  const exportToPDF = () => {
+    // Create a new window for PDF content
+    const printWindow = window.open('', '_blank');
+    
+    // Generate HTML content with page break prevention
+    const content = names.map((n) => {
+      const total = byName[n].items.reduce((sum, item) => sum + item.cost, 0);
+      const itemsHtml = byName[n].items.length === 0 
+        ? '<p style="margin: 6px 0 0 0; opacity: 0.8;">No utilized items.</p>'
+        : `<ul style="margin: 6px 0 0 0; padding-left: 20px;">
+             ${byName[n].items.map((it, idx) => 
+               `<li key="${idx}" style="${it.cost < 0 ? 'color: green;' : 'color: red;'} margin-bottom: 4px;">
+                  ${it.label} — ${formatMoney(it.cost)}
+                </li>`
+             ).join('')}
+           </ul>`;
+      
+      return `<div class="person-card" style="page-break-inside: avoid; border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                <strong style="display: block; margin-bottom: 8px; font-size: 16px;">
+                  ${n} - Total : ${formatMoney(total)}
+                </strong>
+                ${itemsHtml}
+              </div>`;
+    }).join('');
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Utilized Items by Person</title>
+        <style>
+          body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            line-height: 1.4;
+          }
+          h3 { 
+            color: #333; 
+            border-bottom: 2px solid #2563eb; 
+            padding-bottom: 8px; 
+            margin-bottom: 16px;
+          }
+          .person-card { 
+            page-break-inside: avoid;
+            break-inside: avoid;
+          }
+          @media print {
+            .person-card {
+              page-break-inside: avoid;
+              break-inside: avoid-page;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <h3>Utilized Items by Person</h3>
+        ${content}
+      </body>
+      </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.print();
+  };
+
   return (
-    <div style={{ marginTop: 16 }}>
-      <h3 style={styles.h3}>Utilized Items by Person</h3>
+    <div style={{ marginTop: 16 }} className="utilized-person">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+        <h3 style={styles.h3}>Utilized Items by Person</h3>
+        <button style={styles.btnPrimary} onClick={exportToPDF}>
+          Export to PDF
+        </button>
+      </div>
       {names.map((n) => (
         <div key={n} style={styles.personCard}>
           <strong>{n} - Total : {formatMoney(byName[n].items.reduce((sum, item) => sum + item.cost, 0))} </strong>
