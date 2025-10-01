@@ -14,6 +14,10 @@ export default function PaymentCalculator() {
   // Use ref to track if data has been loaded to prevent duplicate loading
   const dataLoadedRef = React.useRef(false);
 
+  // State for set data popup
+  const [showSetDataPopup, setShowSetDataPopup] = useState(false);
+  const [jsonInput, setJsonInput] = useState("");
+
   // Load data from localStorage on component mount
   React.useEffect(() => {
     if (dataLoadedRef.current) {
@@ -24,6 +28,44 @@ export default function PaymentCalculator() {
     const savedData = localStorage.getItem('paymentCalculatorData');
     console.log('Loading from localStorage:', savedData);
     
+    setData(savedData)
+  }, []);
+
+  // Save data to localStorage whenever state changes
+  React.useEffect(() => {
+    const dataToSave = {
+      names,
+      items: items.map(item => ({
+        ...item,
+        utilizedBy: Array.from(item.utilizedBy) // Convert Set to Array for JSON
+      })),
+      step
+    };
+    localStorage.setItem('paymentCalculatorData', JSON.stringify(dataToSave));
+  }, [names, items, step]);
+
+  // Derived calculations
+  const results = useMemo(() => calculateBalances(names, items), [names, items]);
+
+  const next = () => setStep((s) => Math.min(s + 1, 5));
+  const prev = () => setStep((s) => Math.max(s - 1, 1));
+
+  const clearData = () => {
+    localStorage.removeItem('paymentCalculatorData');
+    setNames(["Marco", "Eunice"]);
+    setItems([
+      {
+        id: cryptoRandomId(),
+        label: "Item 1",
+        cost: 0,
+        payerName: "Marco",
+        utilizedBy: new Set(["Marco", "Eunice"]),
+      },
+    ]);
+    setStep(1);
+  };
+
+  const setData = (savedData) => {
     if (savedData) {
       try {
         const data = JSON.parse(savedData);
@@ -94,40 +136,27 @@ export default function PaymentCalculator() {
       ]);
       dataLoadedRef.current = true;
     }
-  }, []);
+  }
 
-  // Save data to localStorage whenever state changes
-  React.useEffect(() => {
-    const dataToSave = {
-      names,
-      items: items.map(item => ({
-        ...item,
-        utilizedBy: Array.from(item.utilizedBy) // Convert Set to Array for JSON
-      })),
-      step
-    };
-    localStorage.setItem('paymentCalculatorData', JSON.stringify(dataToSave));
-  }, [names, items, step]);
+  const setDataPopUp = () => {
+    setShowSetDataPopup(true);
+  };
 
-  // Derived calculations
-  const results = useMemo(() => calculateBalances(names, items), [names, items]);
+  const handleJsonSubmit = () => {
+    try {
+      const data = JSON.parse(jsonInput);
+      setData(JSON.stringify(data));
+      setShowSetDataPopup(false);
+      setJsonInput("");
+    } catch (error) {
+      alert("Invalid JSON format. Please check your input.");
+      console.error("JSON parse error:", error);
+    }
+  };
 
-  const next = () => setStep((s) => Math.min(s + 1, 5));
-  const prev = () => setStep((s) => Math.max(s - 1, 1));
-
-  const clearData = () => {
-    localStorage.removeItem('paymentCalculatorData');
-    setNames(["Marco", "Eunice"]);
-    setItems([
-      {
-        id: cryptoRandomId(),
-        label: "Item 1",
-        cost: 0,
-        payerName: "Marco",
-        utilizedBy: new Set(["Marco", "Eunice"]),
-      },
-    ]);
-    setStep(1);
+  const closePopup = () => {
+    setShowSetDataPopup(false);
+    setJsonInput("");
   };
 
   return (
@@ -137,10 +166,38 @@ export default function PaymentCalculator() {
         <button style={styles.btn} onClick={clearData}>
           Clear Data
         </button>
+        <button style={styles.btn} onClick={setDataPopUp}>
+          Set Data
+        </button>
         <span style={{ fontSize: 12, opacity: 0.7, alignSelf: 'center' }}>
           Data is automatically saved to browser storage
         </span>
       </div>
+
+      {/* Set Data Popup */}
+      {showSetDataPopup && (
+        <div style={styles.popupOverlay}>
+          <div style={styles.popup}>
+            <div style={styles.popupHeader}>
+              <h3 style={styles.popupTitle}>Set Data from JSON</h3>
+              <button style={styles.closeButton} onClick={closePopup}>×</button>
+            </div>
+            <div style={styles.popupContent}>
+              <textarea
+                value={jsonInput}
+                onChange={(e) => setJsonInput(e.target.value)}
+                placeholder="Paste your JSON data here..."
+                style={styles.textarea}
+                rows={10}
+              />
+              <div style={styles.popupButtons}>
+                <button style={styles.btn} onClick={closePopup}>Cancel</button>
+                <button style={styles.btnPrimary} onClick={handleJsonSubmit}>Submit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <Stepper step={step} setStep={setStep} />
 
       {step === 1 && (
@@ -614,7 +671,7 @@ function PerPersonUtilized({
         </style>
       </head>
       <body>
-        <h3>Utilized Items by Person</h3>
+        <h3>Utilized Items by Person <a href="/payment">❌</a></h3>
         ${content}
       </body>
       </html>
@@ -852,14 +909,70 @@ const styles = {
     background: "#ffffff00",
     marginBottom: 8,
   },
+  // Popup styles
+  popupOverlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 1000,
+  },
+  popup: {
+    backgroundColor: "white",
+    borderRadius: 8,
+    padding: 0,
+    width: "90%",
+    maxWidth: 600,
+    maxHeight: "80vh",
+    overflow: "hidden",
+    boxShadow: "0 10px 25px rgba(0, 0, 0, 0.2)",
+  },
+  popupHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "16px 20px",
+    borderBottom: "1px solid #e5e7eb",
+    backgroundColor: "#f9fafb",
+  },
+  popupTitle: {
+    margin: 0,
+    fontSize: "18px",
+    fontWeight: "600",
+    color: "#1f2937",
+  },
+  closeButton: {
+    background: "none",
+    border: "none",
+    fontSize: "24px",
+    cursor: "pointer",
+    color: "#6b7280",
+    padding: "4px 8px",
+    borderRadius: "4px",
+  },
+  popupContent: {
+    padding: "20px",
+  },
+  textarea: {
+    width: "100%",
+    padding: "12px",
+    border: "1px solid #d1d5db",
+    borderRadius: "6px",
+    fontSize: "14px",
+    fontFamily: "monospace",
+    resize: "vertical",
+    outline: "none",
+    minHeight: "200px",
+  },
+  popupButtons: {
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: "8px",
+    marginTop: "16px",
+  },
 };
-
-// Your original helper (kept, adapted)
-export function inputNameEle() {
-  return (
-    <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-      <input style={styles.input} />
-      <button className="remove btn" style={styles.btnDanger}>❌</button>
-    </div>
-  );
-}
