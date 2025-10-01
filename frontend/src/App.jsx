@@ -9,6 +9,7 @@ import PhotoLibrary from "./pages/PhotoLibrary.jsx";
 import Tools from "./pages/Tools.jsx";
 import { KEYS, store } from "./utils/storage.js";
 import CreatorPanel from "./pages/CreatorPanel.jsx";
+import PaymentCalculator from "./pages/PaymentCalculator.jsx"
 
 
 export default function App() {
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/photos" element={<PhotoLibrary />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/creator" element={<CreatorPanel />} />
+          <Route path="/Payment" element={<PaymentCalculator/>} />
         </Routes>
       </main>
       <Footer />
