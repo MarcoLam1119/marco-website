@@ -552,7 +552,7 @@ function CalculationPreview({
           <ul>
             {results.settlements.map((s, idx) => (
               <li key={idx}>
-                {s.from} pays {s.to} {formatMoney(s.amount)}
+                {s.to} pays {s.from} {formatMoney(s.amount)}
               </li>
             ))}
           </ul>
@@ -566,6 +566,7 @@ function CalculationPreview({
 function ResultsTable({
   results,
 }) {
+  console.log("results",results)
   return (
     <div>
       <h3 style={styles.h3}>Balances</h3>
@@ -652,6 +653,12 @@ function PerPersonUtilized({
             margin: 20px; 
             line-height: 1.4;
           }
+          main{
+            display:flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+          }
           h3 { 
             color: #333; 
             border-bottom: 2px solid #2563eb; 
@@ -661,6 +668,7 @@ function PerPersonUtilized({
           .person-card { 
             page-break-inside: avoid;
             break-inside: avoid;
+            width:fit-content;
           }
           @media print {
             .person-card {
@@ -672,7 +680,9 @@ function PerPersonUtilized({
       </head>
       <body>
         <h3>Utilized Items by Person <a href="/payment">❌</a></h3>
+        <main>
         ${content}
+        </main>
       </body>
       </html>
     `);
@@ -689,22 +699,24 @@ function PerPersonUtilized({
           Export to PDF
         </button>
       </div>
-      {names.map((n) => (
-        <div key={n} style={styles.personCard}>
-          <strong>{n} - Total : {formatMoney(byName[n].items.reduce((sum, item) => sum + item.cost, 0))} </strong>
-          {byName[n].items.length === 0 ? (
-            <p style={{ margin: "6px 0 0 0", opacity: 0.8 }}>No utilized items.</p>
-          ) : (
-            <ul style={{ margin: "6px 0 0 0" }}>
-              {byName[n].items.map((it, idx) => (
-                <li key={idx} style={it.cost < 0 ? {color:"green"} : {color:"red"} }>
-                  {it.label} — {formatMoney(it.cost)}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      ))}
+      <div style={{display: 'flex',flexDirection: 'row',flexWrap: 'wrap',justifyContent: 'space-around' }}>
+        {names.map((n) => (
+          <div key={n} style={styles.personCard}>
+            <strong>{n} - Total : {formatMoney(byName[n].items.reduce((sum, item) => sum + item.cost, 0))} </strong>
+            {byName[n].items.length === 0 ? (
+              <p style={{ margin: "6px 0 0 0", opacity: 0.8 }}>No utilized items.</p>
+            ) : (
+              <ul style={{ margin: "6px 0 0 0" }}>
+                {byName[n].items.map((it, idx) => (
+                  <li key={idx} style={it.cost < 0 ? {color:"green"} : {color:"red"} }>
+                    {it.label} — {formatMoney(it.cost)}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -908,6 +920,7 @@ const styles = {
     padding: 8,
     background: "#ffffff00",
     marginBottom: 8,
+    width: 'fit-content',
   },
   // Popup styles
   popupOverlay: {
