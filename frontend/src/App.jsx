@@ -9,7 +9,8 @@ import PhotoLibrary from "./pages/PhotoLibrary.jsx";
 import Tools from "./pages/Tools.jsx";
 import { KEYS, store } from "./utils/storage.js";
 import CreatorPanel from "./pages/CreatorPanel.jsx";
-import PaymentCalculator from "./pages/PaymentCalculator.jsx"
+import PaymentCalculator from "./pages/PaymentCalculator.jsx";
+import OfflineDemo from "./pages/OfflineDemo.jsx";
 
 
 export default function App() {
@@ -29,7 +30,7 @@ export default function App() {
 
   return (
     <>
-      <Header theme={theme} onToggleTheme={() => setTheme(theme === "dark" ? "light" : "dark")} />
+      <Header onToggleTheme={() => setTheme(theme === "dark" ? "light" : "dark")} />
       <main>
         <Routes>
           <Route path="/" element={<Landing />} />
@@ -39,6 +40,7 @@ export default function App() {
           <Route path="/tools" element={<Tools />} />
           <Route path="/creator" element={<CreatorPanel />} />
           <Route path="/Payment" element={<PaymentCalculator/>} />
+          <Route path="/offline-demo" element={<OfflineDemo />} />
         </Routes>
       </main>
       <Footer />

@@ -1,0 +1,49 @@
+{
+  "name": "Marco Personal Website",
+  "short_name": "MarcoWeb",
+  "description": "個人網站 - 包含工具、日曆、照片庫等功能，支持離線使用",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0c0f",
+  "theme_color": "#6aa9ff",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "zh-TW",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/vite.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "/vite.svg",
+      "sizes": "640x320",
+      "type": "image/svg+xml",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/vite.svg",
+      "sizes": "320x640",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "features": [
+    "Offline Functionality",
+    "Cross Platform",
+    "Fast Loading"
+  ],
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
+}

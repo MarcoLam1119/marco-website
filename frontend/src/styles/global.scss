@@ -109,6 +109,36 @@ header{
 }
 
 .nav-rt{ display:flex; align-items:center; gap:10px; }
+
+/* Network Status */
+.network-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.network-status.online {
+  background: color-mix(in oklab, var(--ok) 15%, transparent);
+  color: color-mix(in oklab, var(--ok) 80%, var(--text));
+  border: 1px solid color-mix(in oklab, var(--ok) 30%, transparent);
+}
+
+.network-status.offline {
+  background: color-mix(in oklab, var(--err) 15%, transparent);
+  color: color-mix(in oklab, var(--err) 80%, var(--text));
+  border: 1px solid color-mix(in oklab, var(--err) 30%, transparent);
+}
+
+.network-status span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 .btn, button{
   appearance:none; border: 1px solid var(--border); background: var(--panel);
   color: var(--text); padding: 10px 14px; border-radius: 999px; cursor: pointer;

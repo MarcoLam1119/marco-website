@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
+import NetworkStatus from "./NetworkStatus.jsx";
 
-export default function Header({ theme, onToggleTheme }) {
+export default function Header({ onToggleTheme }) {
   const navRef = useRef(null);
   const [open, setOpen] = useState(false);
 
@@ -47,6 +48,7 @@ export default function Header({ theme, onToggleTheme }) {
           </NavLink>
         </nav>
         <div className="nav-rt">
+          <NetworkStatus />
           <button className="icon-btn" title="Toggle theme" aria-label="Toggle theme" onClick={onToggleTheme}>
             🌓
           </button>
