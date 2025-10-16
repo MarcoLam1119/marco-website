@@ -21,7 +21,10 @@ export default function Tools() {
       <br/>
       <div className="container">
         <h2>Big tools</h2>
-        <a className="btn" href="/payment">Payment Calculator</a>
+        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+          <a className="btn" href="/payment">Payment Calculator</a>
+          <a className="btn" href="/spelling">Words Spelling</a>
+        </div>
       </div>
     </section>
   );
