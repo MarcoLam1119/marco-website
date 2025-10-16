@@ -318,7 +318,7 @@ elephant
                       style={styles.btnSlow} 
                       onClick={() => speakWordSlow(currentWord)}
                     >
-                      🐌 慢速播放
+                      🐌 Slow Play
                     </button>
                     <button 
                       style={styles.btn} 
@@ -358,15 +358,17 @@ elephant
                     {userInput || <span style={styles.placeholder}>Click letters above to spell the word</span>}
                   </div>
                   
-                  {isCorrect !== null && (
-                    <div style={styles.feedback}>
-                      {isCorrect ? (
-                        <span style={styles.correct}>✓ Correct! Well done!</span>
-                      ) : (
-                        <span style={styles.wrong}>✗ Incorrect.</span>
-                      )}
-                    </div>
+                  {isCorrect !== null && 
+                    isCorrect ? (
+                        <div style={styles.correct}>
+                          <span>✓ Correct! Well done!</span>
+                        </div>
+                    ) : (
+                      <div style={styles.wrong}>
+                        <span>✗ Incorrect.</span>
+                      </div>
                   )}
+                  
 
                   <div style={styles.actionButtons}>
                     <button 
@@ -464,12 +466,14 @@ const styles = {
     height: "fit-content",
   },
   twoColumnLayout: {
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
     gap: 20,
     alignItems: "start",
   },
   column: {
+    flex:1,
     display: "flex",
     flexDirection: "column",
     gap: 20,
@@ -553,6 +557,7 @@ const styles = {
     display: "flex",
     gap: "8px",
     flexWrap: "wrap",
+    justifyContent: "center",
   },
   shuffledLetters: {
     textAlign: "center",
@@ -605,10 +610,11 @@ const styles = {
     borderRadius: "6px",
     fontSize: "16px",
     minHeight: "44px",
-    background: "#f9fafb",
+    textAlign : "center",
     display: "flex",
     alignItems: "center",
     marginBottom: "12px",
+    justifyContent: "center",
   },
   placeholder: {
     color: "#9ca3af",
@@ -618,22 +624,26 @@ const styles = {
     display: "flex",
     gap: "8px",
     flexWrap: "wrap",
+    justifyContent: "center",
   },
   inputSection: {
     display: "flex",
     flexDirection: "column",
     gap: "12px",
   },
-  feedback: {
+  correct: {
     padding: "8px 12px",
     borderRadius: "6px",
     fontSize: "14px",
-  },
-  correct: {
+    textAlign: "center",
     color: "#065f46",
     backgroundColor: "#d1fae5",
   },
   wrong: {
+    padding: "8px 12px",
+    borderRadius: "6px",
+    fontSize: "14px",
+    textAlign: "center",
     color: "#991b1b",
     backgroundColor: "#fee2e2",
   },
