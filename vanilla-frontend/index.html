@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Web</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <span>My Personal Web</span>
+        </div>
+        <nav class="navlinks" id="navlinks" aria-label="Primary">
+          <a href="index.html" class="active">Home</a>
+          <a href="about.html">About me</a>
+          <a href="photo-library.html">Photos</a>
+          <a href="calendar.html">Calendar</a>
+          <a href="tools.html">Tools</a>
+        </nav>
+        <div class="nav-rt">
+          <button class="icon-btn" title="Toggle theme" aria-label="Toggle theme" onclick="toggleTheme()">🌓</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+        <!-- Creater -->
+        <section id="home">
+            <div class="container creater">
+                <div class="creater-card">
+                    <div class="row" style="align-items: center; padding: 0 0 10px 0;">
+                        <span class="tag" style="margin: 0; flex: 0 0 100px;">Welcome</span>
+                        <a class="right btn" href="about.html" aria-label="Go to About page" style="flex: 0 0 50px;">Detail</a>
+                    </div>
+                    <div class="row">
+                        <h1 id="createrName">
+                            Lam Chun Wing (Marco)
+                        </h1>
+                        <div class="avatar center container" aria-label="Avatar" style="flex: 0 0 110px;">
+                            ML
+                        </div>
+                    </div>
+                    <p class="muted" id="createrTagline">
+                        2b || !2b — that is the question.
+                    </p>
+                    <div class="spacer"></div>
+                    <div class="row">
+                        <a href="mailto:marcolamCW1119@gmail.com" class="pill">
+                            <img src="assets/icons/Gmail_Original.svg" alt="Gmail icon" />
+                            <span>marcolamCW1119@gmail.com</span>
+                        </a>
+                        <a href="https://wa.me/85292087744" class="pill">
+                            <img src="assets/icons/WhatsApp_Original.svg" alt="WhatsApp icon" />
+                            <span>92087744</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/chun-wing-lam-308ba4328" class="pill">
+                            <img src="assets/icons/LinkedIn_Original.svg" alt="LinkedIn icon" />
+                            <span>Chun Wing Lam</span>
+                        </a>
+                        <a href="https://github.com/MarcoLam1119" class="pill">
+                            <img src="assets/icons/Github_Original.svg" alt="Github icon" />
+                            <span>MarcoLam1119</span>
+                        </a>
+                        <a href="https://www.instagram.com/marco_gaster_lam1119?igsh=azZuc2p3dTBod3ow&utm_source=qr" class="pill">
+                            <img src="assets/icons/Instagram_Original.svg" alt="Instagram icon" />
+                            <span>marco_gaster_lam1119</span>
+                        </a>
+                        <a href="https://discord.com/users/mlgmobile" class="pill">
+                            <img src="assets/icons/Discord_Original.svg" alt="Discord icon" />
+                            <span>mlgmobile</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Previews -->
+        <section id="previews">
+            <div class="container">
+                <h2>Explore</h2>
+                <div class="grid grid-auto">
+                    <!-- Photo Library Preview -->
+                    <div class="panel">
+                        <div class="row" style="align-items: center;">
+                            <h3 style="margin: 0;">Photo library</h3>
+                            <a class="right btn" href="photo-library.html" aria-label="Go to Photo page">Detail</a>
+                        </div>
+                        <div class="small muted" style="margin-top: 8px;">
+                            Loading photos…
+                        </div>
+                    </div>
+
+                    <!-- Calendar Preview -->
+                    <div class="panel">
+                        <div class="row" style="align-items: center;">
+                            <h3 style="margin: 0;">Calendar</h3>
+                            <a class="right btn" href="calendar.html" aria-label="Go to Calendar page">Detail</a>
+                        </div>
+                        <div class="small muted" style="margin-top: 8px;">
+                            Loading upcoming events…
+                        </div>
+                    </div>
+
+                    <!-- Tools Preview -->
+                    <div class="panel">
+                        <div class="row" style="align-items: center;">
+                            <h3 style="margin: 0;">Tools</h3>
+                            <a class="right btn" href="tools.html" aria-label="Go to Tools page">Detail</a>
+                        </div>
+                        <div class="small muted" style="margin-top: 8px;">
+                            Quick Notes chars: <strong class="kpi" style="color: var(--text);">0</strong>
+                        </div>
+                        <div class="divider"></div>
+                        <p class="small muted">
+                            Includes Notes, Unit Converter, Stopwatch/Timer, and Password Generator.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="container center">
+        <div class="divider"></div>
+        <p>
+            © <span id="year">2025</span> <span id="name">Lam Chun Wing (Marco)</span>. All rights reserved.
+        </p>
+        <p class="small">Your content is saved in your browser storage. Clearing site data will reset it.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

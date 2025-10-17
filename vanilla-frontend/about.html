@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - My Personal Web</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <span>My Personal Web</span>
+        </div>
+        <nav class="navlinks" id="navlinks" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="about.html" class="active">About me</a>
+          <a href="photo-library.html">Photos</a>
+          <a href="calendar.html">Calendar</a>
+          <a href="tools.html">Tools</a>
+        </nav>
+        <div class="nav-rt">
+          <button class="icon-btn" title="Toggle theme" aria-label="Toggle theme" onclick="toggleTheme()">🌓</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+        <section id="about">
+          <div class="container">
+            <h2>About me</h2>
+            <div class="container creater">
+              <div class="creater-card">
+                <span class="tag">Welcome</span>
+                <div class="row">
+                  <h1 id="createrName">
+                    Lam Chun Wing (Marco)
+                  </h1>
+                  <div class="avatar center container" aria-label="Avatar" style="flex: 0 0 110px;">
+                    ML
+                  </div>
+                </div>
+                <p class="muted" id="createrTagline">
+                  2b || !2b — that is the question.
+                </p>
+                <div class="spacer"></div>
+                <div class="row">
+                  <a href="mailto:marcolamCW1119@gmail.com" class="pill">
+                    <img src="assets/icons/Gmail_Original.svg" alt="Gmail icon" />
+                    <span>marcolamCW1119@gmail.com</span>
+                  </a>
+                  <a href="https://wa.me/85292087744" class="pill">
+                    <img src="assets/icons/WhatsApp_Original.svg" alt="WhatsApp icon" />
+                    <span>92087744</span>
+                  </a>
+                  <a href="https://www.linkedin.com/in/chun-wing-lam-308ba4328" class="pill">
+                    <img src="assets/icons/LinkedIn_Original.svg" alt="LinkedIn icon" />
+                    <span>Chun Wing Lam</span>
+                  </a>
+                  <a href="https://github.com/MarcoLam1119" class="pill">
+                    <img src="assets/icons/Github_Original.svg" alt="Github icon" />
+                    <span>MarcoLam1119</span>
+                  </a>
+                  <a href="https://www.instagram.com/marco_gaster_lam1119?igsh=azZuc2p3dTBod3ow&utm_source=qr" class="pill">
+                    <img src="assets/icons/Instagram_Original.svg" alt="Instagram icon" />
+                    <span>marco_gaster_lam1119</span>
+                  </a>
+                  <a href="https://discord.com/users/mlgmobile" class="pill">
+                    <img src="assets/icons/Discord_Original.svg" alt="Discord icon" />
+                    <span>mlgmobile</span>
+                  </a>
+                </div>
+                <div class="divider"></div>
+                <h3>Bio</h3>
+                <p id="aboutBio">
+                  Hi, I'm Lam Chun Wing. I'm passionate about building useful things and sharing ideas. I enjoy working with the web, exploring design systems, and turning concepts into working prototypes. When I'm not at a keyboard, you can find me outdoors or with a good book.
+                </p>
+                <div class="divider"></div>
+                <h3>Skills</h3>
+                <div class="skills" id="skills">
+                  <span class="pill">HTML</span>
+                  <span class="pill">CSS</span>
+                  <span class="pill">JavaScript</span>
+                  <span class="pill">Java</span>
+                  <span class="pill">Python</span>
+                  <span class="pill">SQL</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="spacer"></div>
+
+            <div class="row">
+              <!-- Timeline Chart -->
+              <div class="panel timeline-chart">
+                <h3>Timeline (Chart)</h3>
+                <div class="timeline-track" aria-hidden="true"></div>
+                <div class="timeline-rows">
+                  <div class="tl-row left">
+                    <div class="col left">
+                      <div class="bubble">
+                        <div class="bubble-header">09/2013 to 09/2019</div>
+                        <div class="bubble-body">Secondary Graduate in TKWSS</div>
+                      </div>
+                    </div>
+                    <div class="col center">
+                      <div class="arrow left" aria-hidden="true"></div>
+                    </div>
+                    <div class="col right"></div>
+                  </div>
+                  <div class="tl-row right">
+                    <div class="col left"></div>
+                    <div class="col center">
+                      <div class="arrow right" aria-hidden="true"></div>
+                    </div>
+                    <div class="col right">
+                      <div class="bubble">
+                        <div class="bubble-header">10/2022 to 02/2023</div>
+                        <div class="bubble-body">Part-Time IT Support in Hong Kong Institute of Construction</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tl-row left">
+                    <div class="col left">
+                      <div class="bubble">
+                        <div class="bubble-header">09/2019 to 09/2022</div>
+                        <div class="bubble-body">IVE Software Engineer Graduate</div>
+                      </div>
+                    </div>
+                    <div class="col center">
+                      <div class="arrow left" aria-hidden="true"></div>
+                    </div>
+                    <div class="col right"></div>
+                  </div>
+                  <div class="tl-row right">
+                    <div class="col left"></div>
+                    <div class="col center">
+                      <div class="arrow right" aria-hidden="true"></div>
+                    </div>
+                    <div class="col right">
+                      <div class="bubble">
+                        <div class="bubble-header">04/2023 to Present</div>
+                        <div class="bubble-body">Full-Time Programmer in Octopus-InfoTech-Limited</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel">
+                <h3>Timeline</h3>
+                <div class="timeline" id="timeline">
+                  <div class="item">
+                    <strong>04/2023 to Present</strong>
+                    <div class="muted">Full-Time Programmer in Octopus-InfoTech-Limited</div>
+                  </div>
+                  <div class="item">
+                    <strong>10/2022 to 02/2023</strong>
+                    <div class="muted">Part-Time IT Support in Hong Kong Institute of Construction</div>
+                  </div>
+                  <div class="item">
+                    <strong>09/2019 to 09/2022</strong>
+                    <div class="muted">IVE Software Engineer Graduate</div>
+                  </div>
+                  <div class="item">
+                    <strong>09/2013 to 09/2019</strong>
+                    <div class="muted">Secondary Graduate in TKWSS</div>
+                  </div>
+                </div>
+                <div class="divider"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+    </main>
+
+    <footer class="container center">
+        <div class="divider"></div>
+        <p>
+            © <span id="year">2025</span> <span id="name">Lam Chun Wing (Marco)</span>. All rights reserved.
+        </p>
+        <p class="small">Your content is saved in your browser storage. Clearing site data will reset it.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

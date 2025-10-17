@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Calculator - My Personal Web</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <span>My Personal Web</span>
+        </div>
+        <nav class="navlinks" id="navlinks" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="about.html">About me</a>
+          <a href="photo-library.html">Photos</a>
+          <a href="calendar.html">Calendar</a>
+          <a href="tools.html">Tools</a>
+        </nav>
+        <div class="nav-rt">
+          <button class="icon-btn" title="Toggle theme" aria-label="Toggle theme" onclick="toggleTheme()">🌓</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+        <div style="margin: 20px auto; padding: 16px; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;">
+          <h1 style="margin: 0 0 12px;">Payment Calculator</h1>
+          <div style="display: flex; gap: 8; margin-bottom: 12px; flex-wrap: wrap;">
+            <button style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; cursor: pointer;" onclick="clearData()">Clear Data</button>
+            <button style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; cursor: pointer;" onclick="setDataPopUp()">Set Data</button>
+            <span style="font-size: 12px; opacity: 0.7; align-self: center;">Data is automatically saved to browser storage</span>
+          </div>
+
+          <!-- Set Data Popup -->
+          <div id="setDataPopup" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5); display: none; justify-content: center; align-items: center; z-index: 1000;">
+            <div style="background-color: white; border-radius: 8px; padding: 0; width: 90%; max-width: 600px; max-height: 80vh; overflow: hidden; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);">
+              <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid #e5e7eb; background-color: #f9fafb;">
+                <h3 style="margin: 0; font-size: 18px; font-weight: 600; color: #1f2937;">Set Data from JSON</h3>
+                <button style="background: none; border: none; font-size: 24px; cursor: pointer; color: #6b7280; padding: 4px 8px; border-radius: 4px;" onclick="closePopup()">×</button>
+              </div>
+              <div style="padding: 20px;">
+                <textarea id="jsonInput" placeholder="Paste your JSON data here..." style="width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; font-family: monospace; resize: vertical; outline: none; min-height: 200px;" rows="10"></textarea>
+                <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+                  <button style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; cursor: pointer;" onclick="closePopup()">Cancel</button>
+                  <button style="padding: 8px 12px; border: 1px solid #2563eb; border-radius: 6px; background: #2563eb; color: white; cursor: pointer;" onclick="handleJsonSubmit()">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px;" id="stepper"></div>
+
+          <div id="step1" style="display: block;">
+            <section style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; background: rgba(0,0,0,0); box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+              <h2 style="margin: 0 0 12px;">1) Collect Names</h2>
+              <div id="namesList"></div>
+              <div style="display: flex; justify-content: flex-end; margin-top: 12px;">
+                <button style="padding: 8px 12px; border: 1px solid #2563eb; border-radius: 6px; background: #2563eb; color: white; cursor: pointer;" onclick="nextStep()" id="next1">Next</button>
+              </div>
+            </section>
+          </div>
+
+          <div id="step2" style="display: none;">
+            <section style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; background: rgba(0,0,0,0); box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+              <h2 style="margin: 0 0 12px;">2) Collect Payment Items</h2>
+              <div id="itemsList"></div>
+              <button style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; cursor: pointer;" onclick="addItem()">Add Item</button>
+              <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px;">
+                <button style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; cursor: pointer;" onclick="prevStep()">Back</button>
+                <button style="padding: 8px 12px; border: 1px solid #2563eb; border-radius: 6px; background: #2563eb; color: white; cursor: pointer;" onclick="nextStep()" id="next2" disabled>Next</button>
+              </div>
+            </section>
+          </div>
+
+          <div id="step3" style="display: none;">
+            <section style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; background: rgba(0,0,0,0); box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+              <h2 style="margin: 0 0 12px;">3) Link Utilization</h2>
+              <div id="utilizationMatrix"></div>
+              <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px;">
+                <button style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; cursor: pointer;" onclick="prevStep()">Back</button>
+                <button style="padding: 8px 12px; border: 1px solid #2563eb; border-radius: 6px; background: #2563eb; color: white; cursor: pointer;" onclick="nextStep()">Next</button>
+              </div>
+            </section>
+          </div>
+
+          <div id="step4" style="display: none;">
+            <section style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; background: rgba(0,0,0,0); box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+              <h2 style="margin: 0 0 12px;">4) Calculation</h2>
+              <div id="calculationPreview"></div>
+              <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px;">
+                <button style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; cursor: pointer;" onclick="prevStep()">Back</button>
+                <button style="padding: 8px 12px; border: 1px solid #2563eb; border-radius: 6px; background: #2563eb; color: white; cursor: pointer;" onclick="nextStep()">Next</button>
+              </div>
+            </section>
+          </div>
+
+          <div id="step5" style="display: none;">
+            <section style="border: 1px solid #e5e7eb; border-radius: 8px; padding: 12px; background: rgba(0,0,0,0); box-shadow: 0 1px 2px rgba(0,0,0,0.04);">
+              <h2 style="margin: 0 0 12px;">5) Output</h2>
+              <div id="outputResults"></div>
+              <div id="perPersonUtilized"></div>
+              <div style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px;">
+                <button style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; cursor: pointer;" onclick="prevStep()">Back</button>
+                <button style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; background: #f3f4f6; cursor: pointer;" onclick="setStep(1)">Start Over</button>
+              </div>
+            </section>
+          </div>
+        </div>
+    </main>
+
+    <footer class="container center">
+        <div class="divider"></div>
+        <p>
+            © <span id="year">2025</span> <span id="name">Lam Chun Wing (Marco)</span>. All rights reserved.
+        </p>
+        <p class="small">Your content is saved in your browser storage. Clearing site data will reset it.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/payment.js"></script>
+</body>
+</html>

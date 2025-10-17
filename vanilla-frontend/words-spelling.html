@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Words Spelling - My Personal Web</title>
+    <link rel="stylesheet" href="css/global.css">
+    <style>
+        /* Spelling specific styles */
+        .spelling-container {
+            margin: 20px auto;
+            padding: 16px;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+            max-width: 1200px;
+        }
+        .spelling-h1 {
+            margin: 0 0 12px;
+            font-size: clamp(28px, 4vw, 36px);
+        }
+        .spelling-h2 {
+            margin: 0 0 12px;
+            font-size: clamp(20px, 3vw, 24px);
+        }
+        .spelling-h3 {
+            margin: 12px 0 8px;
+            font-size: 16px;
+        }
+        .spelling-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            background: var(--panel);
+            box-shadow: var(--shadow);
+            height: fit-content;
+        }
+        .two-column-layout {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            align-items: start;
+        }
+        .column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .practice-active .column {
+            grid-column: 1 / -1;
+        }
+        .spelling-description {
+            margin: 0 0 12px;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .spell-input, .spell-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xs);
+            font-size: 14px;
+            background: var(--panel);
+            color: var(--text);
+            outline: none;
+        }
+        .spell-textarea {
+            min-height: 200px;
+            resize: vertical;
+            font-family: monospace;
+        }
+        .spell-btn {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xs);
+            background: var(--panel);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .spell-btn:hover {
+            transform: translateY(-1px);
+        }
+        .spell-btn-primary {
+            background: var(--brand);
+            color: var(--bg);
+            border-color: var(--brand);
+        }
+        .spell-btn-slow {
+            background: var(--ok);
+            color: var(--bg);
+            border-color: var(--ok);
+        }
+        .practice-area {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .word-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .shuffled-letters {
+            text-align: center;
+        }
+        .label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--muted);
+            font-weight: 500;
+        }
+        .letters-container {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .clickable-letter {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--brand);
+            border-radius: var(--radius-xs);
+            font-size: 18px;
+            font-weight: bold;
+            background: color-mix(in oklab, var(--brand) 18%, transparent);
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .clickable-letter:hover {
+            background: var(--brand);
+            color: var(--bg);
+        }
+        .user-input-display {
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xs);
+            font-size: 16px;
+            min-height: 44px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            background: var(--panel);
+        }
+        .placeholder {
+            color: var(--muted);
+            font-style: italic;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .input-section {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .feedback-correct {
+            padding: 8px 12px;
+            border-radius: var(--radius-xs);
+            font-size: 14px;
+            text-align: center;
+            color: var(--muted);
+            background-color: color-mix(in oklab, var(--ok) 18%, transparent);
+        }
+        .feedback-wrong {
+            padding: 8px 12px;
+            border-radius: var(--radius-xs);
+            font-size: 14px;
+            text-align: center;
+            color: var(--muted);
+            background-color: color-mix(in oklab, var(--err) 18%, transparent);
+        }
+        .start-practice {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .warning {
+            color: var(--err);
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        .progress-section {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .stat {
+            text-align: center;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xs);
+            background: var(--panel);
+        }
+        .stat-number {
+            display: block;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--brand);
+        }
+        .stat-label {
+            display: block;
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+        .stats-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+        .small {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        .word-management {
+            flex: 1;
+        }
+        .practice-section {
+            flex: 1;
+        }
+        /* Hide/show logic */
+        .practice-mode .word-management { display: none; }
+        .practice-mode .practice-section { flex: unset; grid-column: 1 / -1; }
+
+        @media (max-width: 768px) {
+            .letters-container {
+                gap: 6px;
+            }
+            .clickable-letter {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .actions {
+                justify-content: stretch;
+            }
+            .word-info {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <span>My Personal Web</span>
+        </div>
+        <nav class="navlinks" id="navlinks" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="about.html">About me</a>
+          <a href="photo-library.html">Photos</a>
+          <a href="calendar.html">Calendar</a>
+          <a href="tools.html">Tools</a>
+        </nav>
+        <div class="nav-rt">
+          <button class="icon-btn" title="Toggle theme" aria-label="Toggle theme" onclick="toggleTheme()">🌓</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="spelling-container">
+        <h1 class="spelling-h1">Words Spelling Practice</h1>
+
+        <div class="two-column-layout" id="main-layout">
+            <!-- Word List Management -->
+            <div class="column word-management">
+                <section class="spelling-card">
+                    <h2 class="spelling-h2">1) Word List</h2>
+                    <p class="spelling-description">
+                        Enter your words below (one word per line):
+                    </p>
+                    <textarea id="wordText" rows="12" class="spell-textarea" placeholder="apple
+banana
+computer
+elephant
+..."></textarea>
+                    <div class="stats-section">
+                        <span class="small" id="wordCount">4 words in list</span>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Spelling Practice -->
+            <div class="column practice-section" id="practice-column">
+                <section class="spelling-card">
+                    <h2 class="spelling-h2">2) Spelling Practice</h2>
+
+                    <div id="start-practice-area" class="start-practice">
+                        <p class="spelling-description">
+                            Ready to practice spelling? Click the button below to start with a random word from your list.
+                        </p>
+                        <button class="spell-btn spell-btn-primary" id="start-practice-btn" onclick="startPractice()">
+                            Start Practice
+                        </button>
+                        <p class="warning" id="empty-list-warning" style="display: none;">
+                            Please add some words to the list first.
+                        </p>
+                    </div>
+
+                    <div id="practice-area" style="display: none;">
+                        <div class="practice-area">
+                            <div class="word-info">
+                                <h3 class="spelling-h3">Listen and Spell:</h3>
+                                <div class="actions">
+                                    <button class="spell-btn spell-btn-primary" onclick="playWord()">🔊 Play Again</button>
+                                    <button class="spell-btn spell-btn-slow" onclick="speakWordSlow()">🐌 Slow Play</button>
+                                    <button class="spell-btn" onclick="nextWord()">🔄 Next Word</button>
+                                    <button class="spell-btn" onclick="backToManagement()">← Back to Word List</button>
+                                </div>
+                            </div>
+
+                            <div class="shuffled-letters">
+                                <p class="label">Available Letters (Click to use):</p>
+                                <div id="lettersContainer" class="letters-container"></div>
+                            </div>
+
+                            <div class="input-section">
+                                <label class="label">
+                                    Your spelling:
+                                </label>
+                                <div id="userInputDisplay" class="user-input-display">
+                                    <span class="placeholder">Click letters above to spell the word</span>
+                                </div>
+
+                                <div id="feedback" class="feedback" style="display: none;"></div>
+
+                                <div class="action-buttons">
+                                    <button class="spell-btn spell-btn-primary" id="check-btn" onclick="checkSpelling()" disabled>
+                                        Check Spelling
+                                    </button>
+                                    <button class="spell-btn" onclick="clearInput()">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Stats -->
+                    <div class="progress-section">
+                        <h3 class="spelling-h3">Progress</h3>
+                        <div class="stats-grid">
+                            <div class="stat">
+                                <span class="stat-number" id="practice-count">0</span>
+                                <span class="stat-label">Words Practiced</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number" id="correct-count">0</span>
+                                <span class="stat-label">Correct Answers</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number" id="accuracy">0%</span>
+                                <span class="stat-label">Accuracy</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;">
+            <button class="spell-btn" onclick="clearWordsData()">Clear All Data</button>
+            <span class="small">Data is automatically saved to browser storage</span>
+        </div>
+    </main>
+
+    <footer class="container center">
+        <div class="divider"></div>
+        <p>
+            © <span id="year">2025</span> <span id="name">Lam Chun Wing (Marco)</span>. All rights reserved.
+        </p>
+        <p class="small">Your content is saved in your browser storage. Clearing site data will reset it.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/spelling.js"></script>
+</body>
+</html>

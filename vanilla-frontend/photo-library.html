@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Library - My Personal Web</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <span>My Personal Web</span>
+        </div>
+        <nav class="navlinks" id="navlinks" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="about.html">About me</a>
+          <a href="photo-library.html" class="active">Photos</a>
+          <a href="calendar.html">Calendar</a>
+          <a href="tools.html">Tools</a>
+        </nav>
+        <div class="nav-rt">
+          <button class="icon-btn" title="Toggle theme" aria-label="Toggle theme" onclick="toggleTheme()">🌓</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+        <section id="photos">
+          <div class="container">
+            <h2>Photo Library</h2>
+            <div class="panel">
+              <div class="photo-actions">
+                <input type="file" id="photoInput" multiple accept="image/*" />
+                <button class="btn" onclick="uploadPhotos()">Upload</button>
+              </div>
+              <div class="photogrid">
+                <!-- Photos would be loaded dynamically -->
+                <div class="photo">
+                  <p class="muted">No photos yet.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+    </main>
+
+    <footer class="container center">
+        <div class="divider"></div>
+        <p>
+            © <span id="year">2025</span> <span id="name">Lam Chun Wing (Marco)</span>. All rights reserved.
+        </p>
+        <p class="small">Your content is saved in your browser storage. Clearing site data will reset it.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/photo.js"></script>
+</body>
+</html>

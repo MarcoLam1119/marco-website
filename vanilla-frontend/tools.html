@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools - My Personal Web</title>
+    <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+    <header>
+      <div class="container nav">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <span>My Personal Web</span>
+        </div>
+        <nav class="navlinks" id="navlinks" aria-label="Primary">
+          <a href="index.html">Home</a>
+          <a href="about.html">About me</a>
+          <a href="photo-library.html">Photos</a>
+          <a href="calendar.html">Calendar</a>
+          <a href="tools.html" class="active">Tools</a>
+        </nav>
+        <div class="nav-rt">
+          <button class="icon-btn" title="Toggle theme" aria-label="Toggle theme" onclick="toggleTheme()">🌓</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+        <section id="tools">
+          <div class="container">
+            <h2>Small tools</h2>
+            <div class="tools-grid">
+              <div class="panel tool" id="tool-notes">
+                <h3>Quick Notes</h3>
+                <label htmlFor="notesArea">Your notes (autosave)</label>
+                <textarea id="notesArea" placeholder="Jot something down…" oninput="autoSaveNotes()"></textarea>
+                <div class="row">
+                  <span class="small muted">Saved locally</span>
+                  <span class="small right" id="notesCount">0 chars</span>
+                </div>
+              </div>
+              <div class="panel tool">
+                <h3>Unit Converter</h3>
+                <div class="row">
+                  <div>
+                    <label>Category</label>
+                    <select id="convCat" onchange="changeCategory()">
+                      <option value="temperature">Temperature</option>
+                      <option value="length">Length</option>
+                      <option value="weight">Weight</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label>From</label>
+                    <select id="convFrom" onchange="convertUnits()"></select>
+                  </div>
+                  <div>
+                    <button onclick="swapUnits()" title="Swap units" style="margin-left: 50%; transform: translateX(-50%);">⇄</button>
+                    <label>To</label>
+                    <select id="convTo" onchange="convertUnits()"></select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div>
+                    <label>Value</label>
+                    <input id="convVal" type="number" step="any" value="0" oninput="convertUnits()" />
+                  </div>
+                  <div>
+                    <label>Result</label>
+                    <input id="convOut" type="text" readonly />
+                  </div>
+                </div>
+              </div>
+              <div class="panel tool">
+                <h3>Stopwatch & Timer</h3>
+                <div class="row">
+                  <button onclick="setMode('stopwatch')">Stopwatch</button>
+                  <button onclick="setMode('timer')">Timer</button>
+                </div>
+                <div class="center kpi" style="font-size: 32px;" id="timeDisplay">
+                  00:00.0
+                </div>
+                <div id="timerControls" style="display: none;">
+                  <div class="row">
+                    <div>
+                      <label>Minutes</label>
+                      <input id="timerMinutes" type="number" min="0" value="1" />
+                    </div>
+                    <div>
+                      <label>Seconds</label>
+                      <input id="timerSeconds" type="number" min="0" max="59" value="0" />
+                    </div>
+                  </div>
+                </div>
+                <div class="actions center">
+                  <button id="startBtn" onclick="startTimer()" disabled>Start</button>
+                  <button id="lapBtn" onclick="lapTimer()" style="display: none;">Lap</button>
+                  <button id="stopBtn" onclick="stopTimer()">Stop</button>
+                  <button id="resetBtn" onclick="resetTimer()">Reset</button>
+                </div>
+                <div id="laps" class="small muted"></div>
+              </div>
+              <div class="panel tool">
+                <h3>Password Generator</h3>
+                <div class="row">
+                  <div>
+                    <label>Length: <span id="passLenLabel">16</span></label>
+                    <input type="range" id="passLen" min="6" max="64" value="16" oninput="updateLen()" />
+                  </div>
+                  <div>
+                    <label>Password</label>
+                    <div class="row">
+                      <input type="text" id="generatedPass" readonly />
+                      <button onclick="copyPassword()" id="copyPass" class="tooltip" title="Copy">Copy</button>
+                      <span class="tip">Copied!</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label>
+                    <input type="checkbox" id="incUpper" onchange="generatePassword()" checked /> Uppercase
+                  </label>
+                  <label>
+                    <input type="checkbox" id="incLower" onchange="generatePassword()" checked /> Lowercase
+                  </label>
+                  <label>
+                    <input type="checkbox" id="incNums" onchange="generatePassword()" checked /> Numbers
+                  </label>
+                  <label>
+                    <input type="checkbox" id="incSyms" onchange="generatePassword()" /> Symbols
+                  </label>
+                </div>
+                <div class="actions">
+                  <button onclick="generatePassword()">Generate</button>
+                </div>
+              </div>
+              <div class="panel tool">
+                <h3>Currency Converter</h3>
+                <div class="row">
+                  <div>
+                    <label>Amount</label>
+                    <input id="currencyAmount" type="number" step="any" value="1" oninput="convertCurrency()" />
+                  </div>
+                  <div>
+                    <label>From</label>
+                    <select id="fromCurrency" onchange="convertCurrency()">
+                      <option value="HKD">HKD - Hong Kong Dollar</option>
+                      <option value="JPY">JPY - Japanese Yen</option>
+                      <option value="CNY" selected>CNY - Chinese Yuan</option>
+                      <option value="USD">USD - US Dollar</option>
+                      <option value="EUR">EUR - Euro</option>
+                      <option value="GBP">GBP - British Pound</option>
+                      <option value="CAD">CAD - Canadian Dollar</option>
+                      <option value="AUD">AUD - Australian Dollar</option>
+                      <option value="CHF">CHF - Swiss Franc</option>
+                      <option value="TWD">TWD - Taiwan Dollar</option>
+                    </select>
+                  </div>
+                  <div>
+                    <button onclick="swapCurrencies()" style="margin-left: 50%; transform: translateX(-50%);">⇄</button>
+                    <label>To</label>
+                    <select id="toCurrency" onchange="convertCurrency()">
+                      <option value="HKD" selected>HKD - Hong Kong Dollar</option>
+                      <option value="JPY">JPY - Japanese Yen</option>
+                      <option value="CNY">CNY - Chinese Yuan</option>
+                      <option value="USD">USD - US Dollar</option>
+                      <option value="EUR">EUR - Euro</option>
+                      <option value="GBP">GBP - British Pound</option>
+                      <option value="CAD">CAD - Canadian Dollar</option>
+                      <option value="AUD">AUD - Australian Dollar</option>
+                      <option value="CHF">CHF - Swiss Franc</option>
+                      <option value="TWD">TWD - Taiwan Dollar</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div>
+                    <label>Converted Amount</label>
+                    <input id="convertedAmount" type="text" readonly />
+                  </div>
+                </div>
+                <p id="exchangeRate"></p>
+                <p id="currencyError" style="color: red;"></p>
+              </div>
+            </div>
+          </div>
+          <br/>
+          <div class="container">
+            <h2>Big tools</h2>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <a class="btn" href="payment-calculator.html">Payment Calculator</a>
+              <a class="btn" href="words-spelling.html">Words Spelling</a>
+            </div>
+          </div>
+        </section>
+    </main>
+
+    <footer class="container center">
+        <div class="divider"></div>
+        <p>
+            © <span id="year">2025</span> <span id="name">Lam Chun Wing (Marco)</span>. All rights reserved.
+        </p>
+        <p class="small">Your content is saved in your browser storage. Clearing site data will reset it.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/tools.js"></script>
+</body>
+</html>
