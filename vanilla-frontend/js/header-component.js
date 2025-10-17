@@ -9,13 +9,13 @@ class CustomHeader extends HTMLElement {
     const currentPath = window.location.pathname.replace(/\/$/, ''); // Remove trailing slash for /
     const linkMap = {
       '/': 'Home',
-      '/about.html': 'About me',
-      '/photo-library.html': 'Photos',
-      '/calendar.html': 'Calendar',
-      '/tools.html': 'Tools',
-      '/payment-calculator.html': 'Payment Calculator',
-      '/words-spelling.html': 'Words Spelling',
-      '/creator-panel.html': 'Creator Panel'
+      '/about': 'About me',
+      '/photo-library': 'Photos',
+      '/calendar': 'Calendar',
+      '/tools': 'Tools',
+      '/payment-calculator': 'Payment Calculator',
+      '/words-spelling': 'Words Spelling',
+      '/creator-panel': 'Creator Panel'
     };
     const activePage = linkMap[currentPath] || 'Home';
 
@@ -32,10 +32,10 @@ class CustomHeader extends HTMLElement {
           </div>
           <nav class="navlinks" id="navlinks" aria-label="Primary">
             <a href="/" class="${activePage === 'Home' ? 'active' : ''}">Home</a>
-            <a href="about.html" class="${activePage === 'About me' ? 'active' : ''}">About me</a>
-            <a href="photo-library.html" class="${activePage === 'Photos' ? 'active' : ''}">Photos</a>
-            <a href="calendar.html" class="${activePage === 'Calendar' ? 'active' : ''}">Calendar</a>
-            <a href="tools.html" class="${activePage === 'Tools' ? 'active' : ''}">Tools</a>
+            <a href="about" class="${activePage === 'About me' ? 'active' : ''}">About me</a>
+            <a href="photo-library" class="${activePage === 'Photos' ? 'active' : ''}">Photos</a>
+            <a href="calendar" class="${activePage === 'Calendar' ? 'active' : ''}">Calendar</a>
+            <a href="tools" class="${activePage === 'Tools' ? 'active' : ''}">Tools</a>
           </nav>
           <div class="nav-rt">
             <button class="icon-btn" title="Toggle theme" aria-label="Toggle theme" onclick="toggleTheme()">🌓</button>

@@ -1,5 +1,5 @@
-// Set footer year
-document.getElementById('year').textContent = new Date().getFullYear();
+var currentExchangeRate = null;
+var currencyLoading = false;
 
 // Keys for localStorage
 const KEYS = {
@@ -20,6 +20,7 @@ function toggleTheme() {
 
 // Initialize theme from localStorage
 document.addEventListener('DOMContentLoaded', () => {
+
   const savedTheme = localStorage.getItem(KEYS.THEME);
   if (savedTheme) {
     document.documentElement.dataset.theme = savedTheme;
@@ -155,9 +156,6 @@ async function copyPassword() {
     }
   }
 }
-
-let currentExchangeRate = null;
-let currencyLoading = false;
 
 async function convertCurrency() {
   const amountInput = document.getElementById('currencyAmount');
