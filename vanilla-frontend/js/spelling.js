@@ -100,7 +100,7 @@ function getRandomWord() {
   if (wordList.length === 0) return null;
 
   // Filter out words that have been used recently
-  const availableWords = wordList.filter(word => !usedWords.includes(word));
+  const availableWords = wordList;
 
   // If no available words, show part 1 (word list)
   if (availableWords.length === 0) {
